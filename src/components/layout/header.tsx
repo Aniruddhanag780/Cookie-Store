@@ -83,6 +83,7 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
           <NavLink href="/">Home</NavLink>
           <NavLink href="/#products">Products</NavLink>
+          <NavLink href="/account">My Account</NavLink>
         </nav>
 
         <div className="flex items-center gap-4">
