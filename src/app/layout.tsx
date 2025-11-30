@@ -5,6 +5,7 @@ import { CartProvider } from '@/contexts/cart-context';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import CartSheet from '@/components/cart/cart-sheet';
+import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'AnimEcom',
@@ -30,15 +31,17 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <CartProvider>
-          <div className="flex flex-col min-h-dvh">
-            <Header />
-            <main className="flex-grow">{children}</main>
-            <Footer />
-          </div>
-          <CartSheet />
-          <Toaster />
-        </CartProvider>
+        <FirebaseClientProvider>
+          <CartProvider>
+            <div className="flex flex-col min-h-dvh">
+              <Header />
+              <main className="flex-grow">{children}</main>
+              <Footer />
+            </div>
+            <CartSheet />
+            <Toaster />
+          </CartProvider>
+        </FirebaseClientProvider>
       </body>
     </html>
   );
