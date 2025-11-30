@@ -198,117 +198,114 @@ export default function SignupPage() {
       className="flex items-center justify-center min-h-[80dvh] p-4"
       style={{ backgroundColor: '#121212' }}
     >
-      <div className="flex flex-col items-center gap-4">
-        <Card
-          className="w-full max-w-md border-none"
-          style={{ backgroundColor: 'black' }}
-        >
-          <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold">Create an account</CardTitle>
-            <CardDescription>
-              Enter your details to get started
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
-              <div className="grid gap-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="email">Email Address</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    placeholder="m@example.com"
-                    {...register('email')}
-                    className="bg-white text-black"
-                  />
-                  {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="password"
-                      type={showPassword ? "text" : "password"}
-                      {...register('password')}
-                      className="bg-white text-black pr-10"
-                    />
-                    <button
-                      type="button"
-                      onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute inset-y-0 right-0 flex items-center pr-3 text-black"
-                    >
-                      {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
-                    </button>
-                  </div>
-                  {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
-                </div>
-                <div className="grid gap-2">
-                  <Label htmlFor="confirmPassword">Confirm Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    type="password"
-                    {...register('confirmPassword')}
-                    className="bg-white text-black"
-                  />
-                  {errors.confirmPassword && <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>}
-                </div>
-
+      <Card
+        className="w-full max-w-md border-none"
+        style={{ backgroundColor: 'black' }}
+      >
+        <CardHeader className="text-center">
+          <CardTitle className="text-3xl font-bold">Create an account</CardTitle>
+          <CardDescription>
+            Enter your details to get started
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  {...register('email')}
+                  className="bg-white text-black"
+                />
+                {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
-              <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
-                {isSubmitting ? 'Creating Account...' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </form>
+              <div className="grid gap-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    {...register('password')}
+                    className="bg-white text-black pr-10"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword((prev) => !prev)}
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-black"
+                  >
+                    {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
+                  </button>
+                </div>
+                {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Input
+                  id="confirmPassword"
+                  type="password"
+                  {...register('confirmPassword')}
+                  className="bg-white text-black"
+                />
+                {errors.confirmPassword && <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>}
+              </div>
 
-            <div className="flex items-center gap-4 mt-6">
-              <Separator className="flex-1" />
-              <span className="text-xs text-muted-foreground">
-                OR CONTINUE WITH
-              </span>
-              <Separator className="flex-1" />
             </div>
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
+              {isSubmitting ? 'Creating Account...' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </form>
 
-            <div className="grid grid-cols-3 gap-3 mt-6">
-              <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
-                <GoogleIcon /> Google
-              </Button>
-              <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
-                <MicrosoftIcon /> Microsoft
-              </Button>
-              <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
-                <GitHubIcon /> GitHub
-              </Button>
-            </div>
-          </CardContent>
-          <CardFooter className="flex flex-col gap-4 text-center text-xs">
-            <p className="text-muted-foreground">
-              By creating an account, you agree to our{' '}
-              <Link href="#" className="underline text-blue-500">
-                Terms of Service
-              </Link>{' '}
-              and{' '}
-              <Link href="#" className="underline text-blue-500">
-                Privacy Policy
-              </Link>
-              .
-            </p>
-            <div className="text-sm text-muted-foreground">
-              Already have an account?{' '}
-              <Link href="/login" className="underline text-blue-500 font-semibold">
-                Login
-              </Link>
-            </div>
-          </CardFooter>
-        </Card>
-        {siteKey ? (
-          <ReCAPTCHA
-            ref={recaptchaRef}
-            size="invisible"
-            sitekey={siteKey}
-            theme="dark"
-            badge="inline"
-          />
-        ) : <p className="text-destructive text-xs mt-4">reCAPTCHA site key not configured.</p>}
-      </div>
+          <div className="flex items-center gap-4 mt-6">
+            <Separator className="flex-1" />
+            <span className="text-xs text-muted-foreground">
+              OR CONTINUE WITH
+            </span>
+            <Separator className="flex-1" />
+          </div>
+
+          <div className="grid grid-cols-3 gap-3 mt-6">
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
+              <GoogleIcon /> Google
+            </Button>
+            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
+              <MicrosoftIcon /> Microsoft
+            </Button>
+            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
+              <GitHubIcon /> GitHub
+            </Button>
+          </div>
+        </CardContent>
+        <CardFooter className="flex flex-col gap-4 text-center text-xs">
+          <p className="text-muted-foreground">
+            By creating an account, you agree to our{' '}
+            <Link href="#" className="underline text-blue-500">
+              Terms of Service
+            </Link>{' '}
+            and{' '}
+            <Link href="#" className="underline text-blue-500">
+              Privacy Policy
+            </Link>
+            .
+          </p>
+          <div className="text-sm text-muted-foreground">
+            Already have an account?{' '}
+            <Link href="/login" className="underline text-blue-500 font-semibold">
+              Login
+            </Link>
+          </div>
+        </CardFooter>
+      </Card>
+      {siteKey ? (
+        <ReCAPTCHA
+          ref={recaptchaRef}
+          size="invisible"
+          sitekey={siteKey}
+          theme="dark"
+        />
+      ) : <p className="text-destructive text-xs mt-4">reCAPTCHA site key not configured.</p>}
     </div>
   );
 }
