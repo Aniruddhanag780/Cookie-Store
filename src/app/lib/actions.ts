@@ -66,7 +66,7 @@ export async function sendWelcomeEmail(
   const sendSmtpEmail = new brevo.SendSmtpEmail();
   sendSmtpEmail.templateId = 5;
   sendSmtpEmail.to = [{ email: parsedEmail.data }];
-  sendSmtpEmail.sender = { email: 'noreply@animecom.com', name: 'AnimEcom' };
+  sendSmtpEmail.sender = { email: 'sender@example.com', name: 'AnimEcom' };
 
   try {
     await api.sendTransacEmail(sendSmtpEmail);
