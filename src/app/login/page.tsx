@@ -178,7 +178,7 @@ export default function LoginPage() {
         description: 'Welcome!',
       });
       router.push('/account');
-    } catch (error: any)
+    } catch (error: any) {
       console.error(error);
       toast({
         title: 'Login Failed',
