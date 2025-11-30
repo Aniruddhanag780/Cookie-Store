@@ -12,6 +12,13 @@ import {
 import React from 'react';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+} from '@/components/ui/dropdown-menu';
 
 const NavLink = ({
   href,
@@ -54,7 +61,7 @@ export default function Header() {
     <>
       <NavLink href="/">Home</NavLink>
       <NavLink href="/#products">Products</NavLink>
-      <NavLink href="/account">Account</NavLink>
+      <NavLink href="/account">My Account</NavLink>
     </>
   );
 
@@ -74,7 +81,8 @@ export default function Header() {
         </Link>
 
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
-          {navLinks}
+          <NavLink href="/">Home</NavLink>
+          <NavLink href="/#products">Products</NavLink>
         </nav>
 
         <div className="flex items-center gap-4">
@@ -99,12 +107,26 @@ export default function Header() {
               </SheetContent>
             </Sheet>
           </div>
-          <Button variant="ghost" size="icon" asChild className="hidden md:flex">
-            <Link href="/account">
-              <User className="h-6 w-6" />
-              <span className="sr-only">Account</span>
-            </Link>
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="hidden md:flex">
+                <User className="h-6 w-6" />
+                <span className="sr-only">Account</span>
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem asChild>
+                <Link href="/login">Login</Link>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <Link href="/signup">Sign Up</Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/account">My Account</Link>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <CartIcon />
         </div>
       </div>
