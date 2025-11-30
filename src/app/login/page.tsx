@@ -25,9 +25,9 @@ import {
   browserLocalPersistence,
   sendPasswordResetEmail,
   signInWithPopup,
-  MicrosoftAuthProvider,
   GoogleAuthProvider,
   GithubAuthProvider,
+  OAuthProvider,
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -146,7 +146,7 @@ export default function LoginPage() {
   };
 
   const handleMicrosoftSignIn = async () => {
-    const provider = new MicrosoftAuthProvider();
+    const provider = new OAuthProvider('microsoft.com');
     try {
       await signInWithPopup(auth, provider);
       toast({
