@@ -1,10 +1,10 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState, useEffect, useRef } from 'react';
+import { useFormStatus } from 'react-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { sendWelcomeEmail } from '@/app/lib/actions';
-import { useEffect, useRef } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { Mail } from 'lucide-react';
 
@@ -23,7 +23,7 @@ function SubmitButton() {
 }
 
 export default function WelcomeEmailForm() {
-  const [state, formAction] = useFormState(sendWelcomeEmail, initialState);
+  const [state, formAction] = useActionState(sendWelcomeEmail, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
 
