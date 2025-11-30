@@ -5,6 +5,7 @@ import type { RecommendProductsInput } from '@/ai/flows/ai-product-recommendatio
 import { products } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import { z } from 'zod';
+import * as brevo from '@getbrevo/brevo';
 
 export async function getRecommendedProducts(
   input: RecommendProductsInput
@@ -59,38 +60,16 @@ export async function sendWelcomeEmail(
     };
   }
 
+  const api = new brevo.TransactionalEmailsApi();
+  api.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, apiKey);
+
+  const sendSmtpEmail = new brevo.SendSmtpEmail();
+  sendSmtpEmail.templateId = 5;
+  sendSmtpEmail.to = [{ email: parsedEmail.data }];
+  sendSmtpEmail.sender = { email: 'noreply@animecom.com', name: 'AnimEcom' };
+
   try {
-    const response = await fetch('https://api.brevo.com/v3/smtp/email', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'api-key': apiKey,
-      },
-      body: JSON.stringify({
-        sender: { email: 'noreply@animecom.com', name: 'AnimEcom' },
-        to: [{ email: parsedEmail.data }],
-        subject: 'Welcome to AnimEcom!',
-        htmlContent: `
-          <html>
-            <body>
-              <h1>Welcome to AnimEcom!</h1>
-              <p>Thank you for joining the future of fashion. We're excited to have you with us.</p>
-              <p>Explore our latest collection and define your aesthetic.</p>
-            </body>
-          </html>
-        `,
-      }),
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('Failed to send email:', errorData);
-      return {
-        message: '',
-        error: 'Failed to send email. Please try again later.',
-      };
-    }
-
+    await api.sendTransacEmail(sendSmtpEmail);
     return {
       message: 'Welcome email sent successfully! Please check your inbox.',
     };
