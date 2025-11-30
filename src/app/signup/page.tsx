@@ -26,29 +26,27 @@ import {
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const GoogleIcon = () => (
-  <svg className="h-5 w-5" viewBox="0 0 48 48">
-    <g>
-      <path
-        fill="#EA4335"
-        d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"
-      ></path>
-      <path
-        fill="#4285F4"
-        d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"
-      ></path>
-      <path
-        fill="#FBBC05"
-        d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24s.92 7.54 2.56 10.78l7.97-6.19z"
-      ></path>
-      <path
-        fill="#34A853"
-        d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"
-      ></path>
-      <path fill="none" d="M0 0h48v48H0z"></path>
-    </g>
+  <svg className="h-5 w-5" viewBox="0 0 533.5 544.3">
+    <path
+      d="M533.5 278.4c0-18.5-1.5-37.1-4.7-55.3H272.1v104.8h147c-6.1 33.8-25.7 63.7-54.4 82.7v68h87.7c51.5-47.4 81.1-117.4 81.1-200.2z"
+      fill="#4285f4"
+    />
+    <path
+      d="M272.1 544.3c73.4 0 135.3-24.1 180.4-65.7l-87.7-68c-24.4 16.6-55.9 26-92.6 26-71 0-131.2-47.9-152.8-112.3H28.9v70.1c46.2 91.9 140.3 149.9 243.2 149.9z"
+      fill="#34a853"
+    />
+    <path
+      d="M119.3 324.3c-11.4-33.8-11.4-70.4 0-104.2V150H28.9c-38.6 76.9-38.6 167.5 0 244.4l90.4-70.1z"
+      fill="#fbbc05"
+    />
+    <path
+      d="M272.1 107.7c38.8-.6 76.3 14 104.4 40.8l77.7-77.7C405 24.6 339.7-.8 272.1 0 169.2 0 75.1 58 28.9 150l90.4 70.1c21.5-64.5 81.8-112.4 152.8-112.4z"
+      fill="#ea4335"
+    />
   </svg>
 );
 
@@ -77,6 +75,7 @@ const signupSchema = z
       .string()
       .min(6, { message: 'Password must be at least 6 characters.' }),
     confirmPassword: z.string(),
+    recaptcha: z.string().min(1, { message: 'Please complete the reCAPTCHA.' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -90,13 +89,21 @@ export default function SignupPage() {
   const { toast } = useToast();
   const router = useRouter();
   const [showPassword, setShowPassword] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
+    defaultValues: {
+        email: '',
+        password: '',
+        confirmPassword: '',
+        recaptcha: '',
+    }
   });
 
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
@@ -109,6 +116,8 @@ export default function SignupPage() {
       router.push('/login');
     } catch (error: any) {
       console.error(error);
+      recaptchaRef.current?.reset();
+      setValue('recaptcha', '');
       toast({
         title: 'Sign Up Failed',
         description: error.message || 'An unexpected error occurred.',
@@ -173,6 +182,8 @@ export default function SignupPage() {
       });
     }
   };
+  
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
   return (
     <div
@@ -232,6 +243,22 @@ export default function SignupPage() {
                 />
                 {errors.confirmPassword && <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>}
               </div>
+
+               {siteKey ? (
+                <div className="grid gap-2">
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey={siteKey}
+                    onChange={(token) => setValue('recaptcha', token || '')}
+                    theme="dark"
+                  />
+                  {errors.recaptcha && <p className="text-destructive text-xs">{errors.recaptcha.message}</p>}
+                </div>
+              ) : (
+                 <p className="text-destructive text-xs">reCAPTCHA site key not configured.</p>
+              )}
+
+
             </div>
             <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black hover:bg-gray-200">
               {isSubmitting ? 'Creating Account...' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
