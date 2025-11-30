@@ -154,18 +154,18 @@ export default function SignupPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline hover:text-primary">
+            <Link href="#" className="underline text-blue-500">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline hover:text-primary">
+            <Link href="#" className="underline text-blue-500">
               Privacy Policy
             </Link>
             .
           </p>
           <div className="text-sm text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/login" className="underline hover:text-primary font-semibold">
+            <Link href="/login" className="underline text-blue-500 font-semibold">
               Login
             </Link>
           </div>

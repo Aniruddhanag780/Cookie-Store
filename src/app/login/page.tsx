@@ -182,7 +182,7 @@ export default function LoginPage() {
                 </div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button type="button" className="text-sm underline hover:text-primary">
+                    <button type="button" className="text-sm underline text-blue-500">
                       Forgot Password?
                     </button>
                   </AlertDialogTrigger>
@@ -239,11 +239,11 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline hover:text-primary">
+            <Link href="#" className="underline text-blue-500">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline hover:text-primary">
+            <Link href="#" className="underline text-blue-500">
               Privacy Policy
             </Link>
             .
@@ -252,7 +252,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{' '}
             <Link
               href="/signup"
-              className="underline hover:text-primary font-semibold"
+              className="underline text-blue-500 font-semibold"
             >
               Sign Up
             </Link>
