@@ -58,11 +58,11 @@ export default function Header() {
   }, []);
 
   const navLinks = (
-    <>
+    <div className="flex flex-col gap-4 text-lg font-medium">
       <NavLink href="/">Home</NavLink>
       <NavLink href="/#products">Products</NavLink>
       <NavLink href="/account">My Account</NavLink>
-    </>
+    </div>
   );
 
   return (
@@ -101,7 +101,7 @@ export default function Header() {
                     <Package className="h-7 w-7 text-primary" />
                     <span className="text-xl font-bold font-headline">AnimEcom</span>
                   </Link>
-                  <nav className="flex flex-col gap-4 text-lg font-medium">
+                  <nav>
                     <SheetClose asChild>{navLinks}</SheetClose>
                   </nav>
                 </div>
