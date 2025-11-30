@@ -47,7 +47,8 @@
     "providers": [
       "password",
       "anonymous",
-      "microsoft.com"
+      "microsoft.com",
+      "google.com"
     ]
   },
   "firestore": {

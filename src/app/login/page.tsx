@@ -26,6 +26,7 @@ import {
   sendPasswordResetEmail,
   signInWithPopup,
   MicrosoftAuthProvider,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -162,6 +163,25 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'Login Successful',
+        description: 'Welcome!',
+      });
+      router.push('/account');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: 'Login Failed',
+        description: error.message || 'Could not sign in with Google.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
@@ -246,7 +266,7 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
             <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>

@@ -21,6 +21,7 @@ import {
   createUserWithEmailAndPassword,
   signInWithPopup,
   MicrosoftAuthProvider,
+  GoogleAuthProvider,
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -109,6 +110,25 @@ export default function SignupPage() {
     }
   };
 
+  const handleGoogleSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'Account Created!',
+        description: 'Welcome!',
+      });
+      router.push('/account');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: 'Sign Up Failed',
+        description: error.message || 'Could not sign up with Google.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
@@ -163,7 +183,7 @@ export default function SignupPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
             <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
