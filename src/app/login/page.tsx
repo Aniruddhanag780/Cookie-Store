@@ -18,9 +18,27 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/firebase';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import {
+  signInWithEmailAndPassword,
+  setPersistence,
+  browserSessionPersistence,
+  browserLocalPersistence,
+  sendPasswordResetEmail,
+} from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
 
 const GoogleIcon = () => (
   <svg className="h-5 w-5" viewBox="0 0 24 24">
@@ -52,6 +70,7 @@ const GitHubIcon = () => (
 const loginSchema = z.object({
   email: z.string().email({ message: 'Please enter a valid email.' }),
   password: z.string().min(6, { message: 'Password must be at least 6 characters.' }),
+  rememberMe: z.boolean().default(false),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -60,21 +79,32 @@ export default function LoginPage() {
   const auth = useAuth();
   const { toast } = useToast();
   const router = useRouter();
+  const [resetEmail, setResetEmail] = useState('');
 
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      rememberMe: false,
+    }
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
     try {
+      const persistence = data.rememberMe
+        ? browserLocalPersistence
+        : browserSessionPersistence;
+      await setPersistence(auth, persistence);
       await signInWithEmailAndPassword(auth, data.email, data.password);
       toast({
         title: 'Login Successful',
-        description: "Welcome back!",
+        description: 'Welcome back!',
       });
       router.push('/account');
     } catch (error: any) {
@@ -82,6 +112,30 @@ export default function LoginPage() {
       toast({
         title: 'Login Failed',
         description: error.message || 'An unexpected error occurred.',
+        variant: 'destructive',
+      });
+    }
+  };
+
+  const handlePasswordReset = async () => {
+    if (!resetEmail) {
+      toast({
+        title: 'Email Required',
+        description: 'Please enter your email address.',
+        variant: 'destructive',
+      });
+      return;
+    }
+    try {
+      await sendPasswordResetEmail(auth, resetEmail);
+      toast({
+        title: 'Password Reset Email Sent',
+        description: 'Check your inbox for a link to reset your password.',
+      });
+    } catch (error: any) {
+      toast({
+        title: 'Error',
+        description: error.message || 'Could not send reset email.',
         variant: 'destructive',
       });
     }
@@ -121,14 +175,40 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" />
+                  <Checkbox id="remember-me" {...register('rememberMe')} />
                   <Label htmlFor="remember-me" className="text-sm font-light">
                     Remember me
                   </Label>
                 </div>
-                <Link href="#" className="text-sm underline hover:text-primary">
-                  Forgot Password?
-                </Link>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <button type="button" className="text-sm underline hover:text-primary">
+                      Forgot Password?
+                    </button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Reset Password</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Enter your email address below to receive a password reset link.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <Input
+                      id="reset-email"
+                      type="email"
+                      placeholder="m@example.com"
+                      value={resetEmail}
+                      onChange={(e) => setResetEmail(e.target.value)}
+                      className="bg-background"
+                    />
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handlePasswordReset}>
+                        Send Reset Link
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
             <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black hover:bg-gray-200">
