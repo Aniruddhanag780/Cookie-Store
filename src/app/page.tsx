@@ -6,12 +6,26 @@ import { products } from '@/lib/products';
 import ProductGrid from '@/components/product/product-grid';
 import ProductRecommendations from '@/components/product/product-recommendations';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import WelcomeEmailForm from '@/components/welcome-email-form';
 
 export default function Home() {
   const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-main');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
+      <section className="bg-card border-b py-8 md:py-12">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="text-2xl md:text-3xl font-bold font-headline mb-2">
+            Join Our Community
+          </h2>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+            Enter your email to receive a warm welcome and stay updated on the
+            latest drops from the future of fashion.
+          </p>
+          <WelcomeEmailForm />
+        </div>
+      </section>
+
       <section className="relative h-[60dvh] md:h-[80dvh] w-full">
         {heroImage && (
           <Image
