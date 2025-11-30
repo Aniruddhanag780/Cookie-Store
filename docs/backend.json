@@ -1,0 +1,73 @@
+{
+  "entities": {
+    "UserAccount": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserAccount",
+      "type": "object",
+      "description": "Represents a user account within the AnimEcom application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the user account."
+        },
+        "email": {
+          "type": "string",
+          "description": "Email address of the user.",
+          "format": "email"
+        },
+        "firstName": {
+          "type": "string",
+          "description": "First name of the user."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Last name of the user."
+        },
+        "address": {
+          "type": "string",
+          "description": "User's address."
+        },
+        "orderIds": {
+          "type": "array",
+          "description": "References to Orders. (Relationship: UserAccount 1:N Order)",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "id",
+        "email",
+        "firstName",
+        "lastName"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserAccount",
+          "schema": {
+            "$ref": "#/backend/entities/UserAccount"
+          },
+          "description": "Stores user account information. Path-based ownership ensures only the authenticated user can access their own data.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user, matching the Firebase Auth UID."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `id` field within the UserAccount document is redundant given the path structure and could be omitted for simplicity. The orderIds array stores references to order documents. Orders could be stored as a subcollection of UserAccount (`/users/{userId}/orders/{orderId}`), or in a top-level `orders` collection, depending on whether orders need to be accessed independently of user accounts. If stored in a top-level `orders` collection, the UserAccount data would need to be denormalized with the `userId` to allow secure listing of orders by user."
+  }
+}
