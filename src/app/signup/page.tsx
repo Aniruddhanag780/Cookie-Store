@@ -17,7 +17,11 @@ import { useForm, type SubmitHandler } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { useAuth } from '@/firebase';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  MicrosoftAuthProvider,
+} from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 
@@ -86,6 +90,25 @@ export default function SignupPage() {
     }
   };
 
+  const handleMicrosoftSignIn = async () => {
+    const provider = new MicrosoftAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'Account Created!',
+        description: 'Welcome!',
+      });
+      router.push('/account');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: 'Sign Up Failed',
+        description: error.message || 'Could not sign up with Microsoft.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
@@ -143,7 +166,7 @@ export default function SignupPage() {
             <Button variant="outline" className="gap-2">
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
             <Button variant="outline" className="gap-2">
