@@ -180,7 +180,7 @@ export default function SignupPage() {
                   type="email"
                   placeholder="m@example.com"
                   {...register('email')}
-                  className="bg-background"
+                  className="bg-white text-black"
                 />
                  {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
@@ -190,7 +190,7 @@ export default function SignupPage() {
                   id="password"
                   type="password"
                   {...register('password')}
-                  className="bg-background"
+                  className="bg-white text-black"
                 />
                 {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
               </div>

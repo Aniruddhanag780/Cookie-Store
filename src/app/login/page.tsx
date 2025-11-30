@@ -231,13 +231,13 @@ export default function LoginPage() {
                   type="email"
                   placeholder="m@example.com"
                   {...register('email')}
-                  className="bg-background"
+                  className="bg-white text-black"
                 />
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
                 <Label htmlFor="password">Password</Label>
-                <Input id="password" type="password" {...register('password')} className="bg-background" />
+                <Input id="password" type="password" {...register('password')} className="bg-white text-black" />
                 {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
               </div>
               <div className="flex items-center justify-between">
