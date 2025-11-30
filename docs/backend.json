@@ -48,7 +48,8 @@
       "password",
       "anonymous",
       "microsoft.com",
-      "google.com"
+      "google.com",
+      "github.com"
     ]
   },
   "firestore": {

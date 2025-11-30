@@ -27,6 +27,7 @@ import {
   signInWithPopup,
   MicrosoftAuthProvider,
   GoogleAuthProvider,
+  GithubAuthProvider,
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
@@ -182,6 +183,25 @@ export default function LoginPage() {
     }
   };
 
+  const handleGitHubSignIn = async () => {
+    const provider = new GithubAuthProvider();
+    try {
+      await signInWithPopup(auth, provider);
+      toast({
+        title: 'Login Successful',
+        description: 'Welcome!',
+      });
+      router.push('/account');
+    } catch (error: any) {
+      console.error(error);
+      toast({
+        title: 'Login Failed',
+        description: error.message || 'Could not sign in with GitHub.',
+        variant: 'destructive',
+      });
+    }
+  };
+
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
@@ -272,7 +292,7 @@ export default function LoginPage() {
             <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2">
+            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
