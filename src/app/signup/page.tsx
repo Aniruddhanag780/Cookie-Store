@@ -75,7 +75,6 @@ const signupSchema = z
       .string()
       .min(6, { message: 'Password must be at least 6 characters.' }),
     confirmPassword: z.string(),
-    recaptcha: z.string().min(1, { message: 'Please complete the reCAPTCHA.' }),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords don't match",
@@ -94,7 +93,6 @@ export default function SignupPage() {
   const {
     register,
     handleSubmit,
-    setValue,
     formState: { errors, isSubmitting },
   } = useForm<SignupFormValues>({
     resolver: zodResolver(signupSchema),
@@ -102,11 +100,23 @@ export default function SignupPage() {
         email: '',
         password: '',
         confirmPassword: '',
-        recaptcha: '',
     }
   });
 
   const onSubmit: SubmitHandler<SignupFormValues> = async (data) => {
+    
+    const token = await recaptchaRef.current?.executeAsync();
+    if (!token) {
+        toast({
+            title: 'CAPTCHA failed',
+            description: 'Please try submitting the form again.',
+            variant: 'destructive',
+        });
+        return;
+    }
+    recaptchaRef.current?.reset();
+
+
     try {
       await createUserWithEmailAndPassword(auth, data.email, data.password);
       toast({
@@ -116,8 +126,6 @@ export default function SignupPage() {
       router.push('/login');
     } catch (error: any) {
       console.error(error);
-      recaptchaRef.current?.reset();
-      setValue('recaptcha', '');
       toast({
         title: 'Sign Up Failed',
         description: error.message || 'An unexpected error occurred.',
@@ -201,6 +209,14 @@ export default function SignupPage() {
           </CardDescription>
         </CardHeader>
         <CardContent>
+           {siteKey ? (
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                size="invisible"
+                sitekey={siteKey}
+                theme="dark"
+              />
+            ) : <p className="text-destructive text-xs mb-4">reCAPTCHA site key not configured.</p>}
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
@@ -244,23 +260,8 @@ export default function SignupPage() {
                 {errors.confirmPassword && <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>}
               </div>
 
-               {siteKey ? (
-                <div className="grid gap-2">
-                  <ReCAPTCHA
-                    ref={recaptchaRef}
-                    sitekey={siteKey}
-                    onChange={(token) => setValue('recaptcha', token || '')}
-                    theme="dark"
-                  />
-                  {errors.recaptcha && <p className="text-destructive text-xs">{errors.recaptcha.message}</p>}
-                </div>
-              ) : (
-                 <p className="text-destructive text-xs">reCAPTCHA site key not configured.</p>
-              )}
-
-
             </div>
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black hover:bg-gray-200">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
               {isSubmitting ? 'Creating Account...' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
