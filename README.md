@@ -1,5 +1,3 @@
-# Firebase Studio
+# AnimEcom
 
-This is a NextJS starter in Firebase Studio.
-
-To get started, take a look at src/app/page.tsx.
+This is a Next.js starter project for AnimEcom, a modern e-commerce website.

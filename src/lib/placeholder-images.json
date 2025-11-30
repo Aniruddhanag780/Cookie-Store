@@ -1,3 +1,82 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-main",
+      "description": "Hero image for the main landing page",
+      "imageUrl": "https://images.unsplash.com/photo-1653671737835-9a37660610c2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxmdXR1cmlzdGljJTIwZmFzaGlvbnxlbnwwfHx8fDE3NjQ0MDkwMDJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic fashion"
+    },
+    {
+      "id": "product-1",
+      "description": "Chrono-Gauntlet",
+      "imageUrl": "https://images.unsplash.com/photo-1760809847382-84a86f4aad7a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwZ2F1bnRsZXR8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic gauntlet"
+    },
+    {
+      "id": "product-2",
+      "description": "Aether-Weave Hoodie",
+      "imageUrl": "https://images.unsplash.com/photo-1633948760530-48e0beccdd05?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8dGVjaHdlYXIlMjBob29kaWV8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "techwear hoodie"
+    },
+    {
+      "id": "product-3",
+      "description": "Quantum Visor",
+      "imageUrl": "https://images.unsplash.com/photo-1655929947443-f2997d1e0a49?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxjeWJlcnB1bmslMjBnbGFzc2VzfGVufDB8fHx8MTc2NDUxMjQxMXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk glasses"
+    },
+    {
+      "id": "product-4",
+      "description": "Kinetic Boost Boots",
+      "imageUrl": "https://images.unsplash.com/photo-1571859955653-6d5eeab3f665?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxzY2ktZmklMjBib290c3xlbnwwfHx8fDE3NjQ0MzA2NDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "sci-fi boots"
+    },
+    {
+      "id": "product-5",
+      "description": "Neural Interface Band",
+      "imageUrl": "https://images.unsplash.com/photo-1671210004146-70569f951169?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmdXR1cmlzdGljJTIwaGVhZGJhbmR8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic headband"
+    },
+    {
+      "id": "product-6",
+      "description": "Singularity Jacket",
+      "imageUrl": "https://images.unsplash.com/photo-1640730204539-24cea4d42b87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjeWJlcnB1bmslMjBqYWNrZXR8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "cyberpunk jacket"
+    },
+    {
+      "id": "product-7",
+      "description": "Data-Stream Leggings",
+      "imageUrl": "https://images.unsplash.com/photo-1761073490980-ecd40e9bec57?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxnbG93aW5nJTIwcGFudHN8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "glowing pants"
+    },
+    {
+      "id": "product-8",
+      "description": "Gravity-Shift Sneakers",
+      "imageUrl": "https://images.unsplash.com/photo-1627847307193-9967c15b123c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmdXR1cmlzdGljJTIwc25lYWtlcnN8ZW58MHx8fHwxNzY0NTEyNDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "futuristic sneakers"
+    },
+    {
+      "id": "product-9",
+      "description": "Echo-Shell Pack",
+      "imageUrl": "https://images.unsplash.com/photo-1758552655482-e461ae071edf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx0ZWNoJTIwYmFja3BhY2t8ZW58MHx8fHwxNzY0NDQ4ODEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "tech backpack"
+    },
+    {
+      "id": "product-10",
+      "description": "Vortex Trench Coat",
+      "imageUrl": "https://images.unsplash.com/photo-1667635975534-8258618643bb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsb25nJTIwY29hdHxlbnwwfHx8fDE3NjQ1MTI0MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "long coat"
+    },
+    {
+      "id": "product-11",
+      "description": "Hologram Utility Belt",
+      "imageUrl": "https://images.unsplash.com/photo-1764268602042-88b05a211378?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxnbG93aW5nJTIwYmVsdHxlbnwwfHx8fDE3NjQ1MTI0MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "glowing belt"
+    },
+    {
+      "id": "product-12",
+      "description": "Stealth-Fabric T-Shirt",
+      "imageUrl": "https://images.unsplash.com/photo-1759572095317-3a96f9a98e2b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxibGFjayUyMHQtc2hpcnR8ZW58MHx8fHwxNzY0NDUzNzQ5fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "black t-shirt"
+    }
+  ]
 }
