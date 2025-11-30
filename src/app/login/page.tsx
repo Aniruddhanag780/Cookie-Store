@@ -31,7 +31,7 @@ import {
 } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -43,6 +43,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const GoogleIcon = () => (
   <svg className="h-5 w-5" viewBox="0 0 533.5 544.3">
@@ -97,6 +98,7 @@ export default function LoginPage() {
   const router = useRouter();
   const [resetEmail, setResetEmail] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const {
     register,
@@ -113,6 +115,17 @@ export default function LoginPage() {
   });
 
   const onSubmit: SubmitHandler<LoginFormValues> = async (data) => {
+    const token = await recaptchaRef.current?.executeAsync();
+    if (!token) {
+        toast({
+            title: 'CAPTCHA failed',
+            description: 'Please try submitting the form again.',
+            variant: 'destructive',
+        });
+        return;
+    }
+    recaptchaRef.current?.reset();
+
     try {
       const persistence = data.rememberMe
         ? browserLocalPersistence
@@ -226,6 +239,8 @@ export default function LoginPage() {
     }
   };
 
+  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
@@ -240,6 +255,14 @@ export default function LoginPage() {
           <CardDescription>Please enter your details</CardDescription>
         </CardHeader>
         <CardContent>
+          {siteKey ? (
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              size="invisible"
+              sitekey={siteKey}
+              theme="dark"
+            />
+          ) : <p className="text-destructive text-xs mb-4">reCAPTCHA site key not configured.</p>}
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
@@ -310,7 +333,7 @@ export default function LoginPage() {
                 </AlertDialog>
               </div>
             </div>
-            <Button type="submit" disabled={isSubmitting} className="w-full bg-white text-black hover:bg-gray-200">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
               {isSubmitting ? 'Logging in...' : 'Login'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
