@@ -43,8 +43,14 @@ const GitHubIcon = () => (
 
 export default function SignupPage() {
   return (
-    <div className="flex items-center justify-center min-h-[80dvh] bg-background p-4">
-      <Card className="w-full max-w-md bg-card border-none">
+    <div
+      className="flex items-center justify-center min-h-[80dvh] p-4"
+      style={{ backgroundColor: '#121212' }}
+    >
+      <Card
+        className="w-full max-w-md border-none"
+        style={{ backgroundColor: 'black' }}
+      >
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Create an account</CardTitle>
           <CardDescription>
