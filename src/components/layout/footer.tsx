@@ -1,65 +1,109 @@
 import Link from 'next/link';
-import { Package, Twitter, Instagram, Facebook } from 'lucide-react';
+import { Facebook, Github, Instagram, Twitter } from 'lucide-react';
+import WelcomeEmailForm from '../welcome-email-form';
+
+const footerLinks = [
+  {
+    title: 'Company',
+    links: [
+      { label: 'About', href: '#' },
+      { label: 'Features', href: '#' },
+      { label: 'Works', href: '#' },
+      { label: 'Career', href: '#' },
+    ],
+  },
+  {
+    title: 'Help',
+    links: [
+      { label: 'Customer Support', href: '#' },
+      { label: 'Delivery Details', href: '#' },
+      { label: 'Terms & Conditions', href: '#' },
+      { label: 'Privacy Policy', href: '#' },
+    ],
+  },
+  {
+    title: 'FAQ',
+    links: [
+      { label: 'Account', href: '#' },
+      { label: 'Manage Deliveries', href: '#' },
+      { label: 'Orders', href: '#' },
+      { label: 'Payments', href: '#' },
+    ],
+  },
+  {
+    title: 'Resources',
+    links: [
+      { label: 'Free eBooks', href: '#' },
+      { label: 'Development Tutorial', href: '#' },
+      { label: 'How to - Blog', href: '#' },
+      { label: 'Youtube Playlist', href: '#' },
+    ],
+  },
+];
+
+const PaymentIcons = () => (
+    <div className="flex items-center gap-2">
+        <img src="https://img.icons8.com/color/48/visa.png" alt="Visa" className="h-6" />
+        <img src="https://img.icons8.com/color/48/mastercard.png" alt="Mastercard" className="h-6" />
+        <img src="https://img.icons8.com/color/48/paypal.png" alt="PayPal" className="h-6" />
+        <img src="https://img.icons8.com/color/48/apple-pay.png" alt="Apple Pay" className="h-6" />
+        <img src="https://img.icons8.com/color/48/google-pay.png" alt="Google Pay" className="h-6" />
+    </div>
+);
 
 export default function Footer() {
   return (
-    <footer className="border-t" style={{ backgroundColor: '#1E1E1E' }}>
-      <div className="container mx-auto py-12 px-4 md:px-6">
-        <div className="grid gap-8 md:grid-cols-3">
-          <div className="flex flex-col gap-2">
-            <Link href="/" className="flex items-center gap-2 mb-2">
-              <Package className="h-7 w-7 text-primary" />
-              <span className="text-xl font-bold font-headline">AnimEcom</span>
-            </Link>
-            <p className="text-muted-foreground text-sm">
-              The future of fashion, delivered today.
-            </p>
-            <p className="text-muted-foreground text-xs">
-              &copy; {new Date().getFullYear()} AnimEcom. All rights reserved.
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 md:col-span-2">
-            <div className="flex flex-col gap-2 text-sm">
-              <h4 className="font-semibold font-headline mb-2">Shop</h4>
-              <Link href="/#products" className="text-muted-foreground hover:text-primary transition-colors">
-                Apparel
-              </Link>
-              <Link href="/#products" className="text-muted-foreground hover:text-primary transition-colors">
-                Footwear
-              </Link>
-              <Link href="/#products" className="text-muted-foreground hover:text-primary transition-colors">
-                Accessories
-              </Link>
-            </div>
-            <div className="flex flex-col gap-2 text-sm">
-              <h4 className="font-semibold font-headline mb-2">Account</h4>
-              <Link href="/login" className="text-muted-foreground hover:text-primary transition-colors">
-                Login
-              </Link>
-              <Link href="/signup" className="text-muted-foreground hover:text-primary transition-colors">
-                Sign Up
-              </Link>
-              <Link href="/account" className="text-muted-foreground hover:text-primary transition-colors">
-                Order History
-              </Link>
-            </div>
-            <div className="flex flex-col gap-2 text-sm">
-              <h4 className="font-semibold font-headline mb-2">Connect</h4>
-              <div className="flex gap-4">
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Twitter className="h-5 w-5" />
-                </Link>
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Instagram className="h-5 w-5" />
-                </Link>
-                <Link href="#" className="text-muted-foreground hover:text-primary transition-colors">
-                  <Facebook className="h-5 w-5" />
-                </Link>
-              </div>
+    <footer>
+      <section className="py-12 bg-black text-white">
+        <div className="container mx-auto px-4">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-8">
+            <h2 className="text-3xl md:text-4xl font-bold font-headline max-w-sm leading-tight uppercase">
+              Stay upto date about our latest offers
+            </h2>
+            <div className="w-full md:max-w-md">
+              <WelcomeEmailForm />
             </div>
           </div>
         </div>
-      </div>
+      </section>
+      
+      <section className="bg-footer text-footer-foreground py-12">
+        <div className="container mx-auto px-4">
+          <div className="grid gap-12 md:grid-cols-5">
+            <div className="flex flex-col gap-4 md:col-span-2 lg:col-span-1">
+              <Link href="/" className="flex items-center gap-2 mb-2">
+                <span className="text-2xl font-bold font-headline">SHOP.CO</span>
+              </Link>
+              <p className="text-sm max-w-xs">
+                We have clothes that suit your style and which you&apos;re proud to wear. From women to men.
+              </p>
+              <div className="flex gap-4 mt-2">
+                  <Link href="#" className="hover:text-primary transition-colors"><Twitter className="h-5 w-5" /></Link>
+                  <Link href="#" className="hover:text-primary transition-colors"><Facebook className="h-5 w-5" /></Link>
+                  <Link href="#" className="hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></Link>
+                  <Link href="#" className="hover:text-primary transition-colors"><Github className="h-5 w-5" /></Link>
+              </div>
+            </div>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:col-span-3 lg:col-span-4">
+              {footerLinks.map((section) => (
+                <div key={section.title} className="flex flex-col gap-3 text-sm">
+                  <h4 className="font-semibold font-headline uppercase tracking-wider mb-2">{section.title}</h4>
+                  {section.links.map((link) => (
+                    <Link key={link.label} href={link.href} className="text-footer-foreground/80 hover:text-footer-foreground transition-colors">
+                      {link.label}
+                    </Link>
+                  ))}
+                </div>
+              ))}
+            </div>
+          </div>
+          <hr className="my-8 border-footer-foreground/20" />
+           <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
+             <p className="text-footer-foreground/80">Shop.co © 2000-2023, All Rights Reserved</p>
+             <PaymentIcons />
+          </div>
+        </div>
+      </section>
     </footer>
   );
 }
