@@ -102,6 +102,11 @@ export default function CartSheet() {
                 </div>
                 <SheetClose asChild>
                   <Button asChild size="lg" className="w-full">
+                    <Link href="/cart">View Cart</Link>
+                  </Button>
+                </SheetClose>
+                <SheetClose asChild>
+                  <Button asChild size="lg" className="w-full">
                     <Link href="/checkout">Proceed to Checkout</Link>
                   </Button>
                 </SheetClose>
