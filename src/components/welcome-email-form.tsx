@@ -16,8 +16,8 @@ const initialState = {
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending}>
-      {pending ? 'Sending...' : 'Send Welcome Email'}
+    <Button type="submit" disabled={pending} className="w-full">
+      {pending ? 'Subscribing...' : 'Subscribe to Newsletter'}
     </Button>
   );
 }
@@ -30,7 +30,7 @@ export default function WelcomeEmailForm() {
   useEffect(() => {
     if (state.message) {
       toast({
-        title: 'Success!',
+        title: 'Subscribed!',
         description: state.message,
       });
       formRef.current?.reset();
@@ -48,15 +48,15 @@ export default function WelcomeEmailForm() {
     <form
       ref={formRef}
       action={formAction}
-      className="flex max-w-md mx-auto items-center space-x-2"
+      className="flex flex-col items-center space-y-4"
     >
-      <div className="relative flex-1">
+      <div className="relative w-full">
          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="email"
           name="email"
-          placeholder="your.email@example.com"
-          className="pl-10"
+          placeholder="Enter your email address"
+          className="pl-10 h-12 rounded-full bg-primary-foreground text-foreground"
           required
         />
       </div>

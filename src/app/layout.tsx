@@ -6,6 +6,7 @@ import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import CartSheet from '@/components/cart/cart-sheet';
 import { FirebaseClientProvider } from '@/firebase';
+import NewsletterSignup from '@/components/layout/newsletter-signup';
 
 export const metadata: Metadata = {
   title: 'AnimEcom',
@@ -36,6 +37,7 @@ export default function RootLayout({
             <div className="flex flex-col min-h-dvh">
               <Header />
               <main className="flex-grow">{children}</main>
+              <NewsletterSignup />
               <Footer />
             </div>
             <CartSheet />
