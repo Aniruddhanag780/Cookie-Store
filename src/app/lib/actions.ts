@@ -64,10 +64,10 @@ export async function sendWelcomeEmail(
   api.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, apiKey);
 
   const sendSmtpEmail = new brevo.SendSmtpEmail();
-  sendSmtpEmail.templateId = 5;
-  sendSmtpEmail.to = [{ email: parsedEmail.data }];
-  sendSmtpEmail.sender = { name: 'AnimEcom', email: 'sender@example.com' };
 
+  sendSmtpEmail.sender = { name: 'AnimEcom', email: 'sender@example.com' };
+  sendSmtpEmail.to = [{ email: parsedEmail.data }];
+  sendSmtpEmail.templateId = 5;
 
   try {
     await api.sendTransacEmail(sendSmtpEmail);
