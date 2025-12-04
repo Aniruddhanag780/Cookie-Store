@@ -5,7 +5,7 @@ import type { RecommendProductsInput } from '@/ai/flows/ai-product-recommendatio
 import { products } from '@/lib/products';
 import type { Product } from '@/lib/types';
 import { z } from 'zod';
-import * as brevo from '@getbrevo/brevo';
+import nodemailer from 'nodemailer';
 
 export async function getRecommendedProducts(
   input: RecommendProductsInput
@@ -37,6 +37,17 @@ export async function getRecommendedProducts(
 
 const emailSchema = z.string().email({ message: 'Invalid email address.' });
 
+const brevoTemplateBodies: Record<number, { subject: string; htmlContent: string }> = {
+    5: {
+      subject: 'Welcome to AnimEcom!',
+      htmlContent: `
+        <h1>Welcome to AnimEcom!</h1>
+        <p>Thanks for signing up for our newsletter.</p>
+        <p>You'll be the first to know about our latest offers and new futuristic apparel.</p>
+      `,
+    },
+};
+
 export async function sendWelcomeEmail(
   prevState: any,
   formData: FormData
@@ -51,31 +62,51 @@ export async function sendWelcomeEmail(
     };
   }
 
-  const apiKey = process.env.BREVO_API_KEY;
-  if (!apiKey) {
-    console.error('Brevo API key is not set.');
+  const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASSWORD } = process.env;
+
+  if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASSWORD) {
+    console.error('SMTP environment variables are not set.');
     return {
       message: '',
       error: 'Email configuration error. Please contact support.',
     };
   }
 
-  const api = new brevo.TransactionalEmailsApi();
-  api.setApiKey(brevo.TransactionalEmailsApiApiKeys.apiKey, apiKey);
+  const transporter = nodemailer.createTransport({
+    host: SMTP_HOST,
+    port: parseInt(SMTP_PORT, 10),
+    secure: parseInt(SMTP_PORT, 10) === 465, // true for 465, false for other ports
+    auth: {
+      user: SMTP_USER,
+      pass: SMTP_PASSWORD,
+    },
+  });
 
-  const sendSmtpEmail = new brevo.SendSmtpEmail();
+  const templateId = 5;
+  const templateBody = brevoTemplateBodies[templateId];
 
-  sendSmtpEmail.sender = { name: 'AnimEcom', email: 'sender@example.com' };
-  sendSmtpEmail.to = [{ email: parsedEmail.data }];
-  sendSmtpEmail.templateId = 5;
+  if (!templateBody) {
+      return {
+          message: '',
+          error: `Email template #${templateId} not found.`
+      }
+  }
+
+
+  const mailOptions = {
+    from: '"AnimEcom" <sender@example.com>',
+    to: parsedEmail.data,
+    subject: templateBody.subject,
+    html: templateBody.htmlContent,
+  };
 
   try {
-    await api.sendTransacEmail(sendSmtpEmail);
+    await transporter.sendMail(mailOptions);
     return {
       message: 'Welcome email sent successfully! Please check your inbox.',
     };
   } catch (error: any) {
-    console.error('Error sending welcome email:', error?.response?.body || error.message);
+    console.error('Error sending welcome email:', error.message);
     return {
       message: '',
       error: 'An unexpected error occurred. Please try again.',
