@@ -23,7 +23,7 @@ export default function CartPage() {
   const total = cartTotal - discount + deliveryFee;
 
   return (
-    <div style={{ backgroundColor: '#1E1E1E' }} className="min-h-screen">
+    <div style={{ backgroundColor: '#121212' }} className="min-h-screen">
       <div className="container mx-auto px-4 py-8 md:py-12 text-black">
         <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-white">
           Your Cart
