@@ -65,16 +65,16 @@ export async function sendWelcomeEmail(
 
   const sendSmtpEmail = new brevo.SendSmtpEmail();
   sendSmtpEmail.templateId = 5;
-  sendSmtpEmail.to = [{ email: parsedEmail.data }];
-  sendSmtpEmail.sender = { email: 'sender@example.com', name: 'AnimEcom' };
+  sendSmtpEmail.to = [new brevo.SendSmtpEmailTo(parsedEmail.data)];
+  sendSmtpEmail.sender = new brevo.SendSmtpEmailSender('AnimEcom', 'sender@example.com');
 
   try {
     await api.sendTransacEmail(sendSmtpEmail);
     return {
       message: 'Welcome email sent successfully! Please check your inbox.',
     };
-  } catch (error) {
-    console.error('Error sending welcome email:', error);
+  } catch (error: any) {
+    console.error('Error sending welcome email:', error?.response?.body || error.message);
     return {
       message: '',
       error: 'An unexpected error occurred. Please try again.',
