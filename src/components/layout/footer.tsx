@@ -3,7 +3,7 @@ import { Package, Twitter, Instagram, Facebook } from 'lucide-react';
 
 export default function Footer() {
   return (
-    <footer className="bg-card border-t">
+    <footer className="border-t" style={{ backgroundColor: '#1E1E1E' }}>
       <div className="container mx-auto py-12 px-4 md:px-6">
         <div className="grid gap-8 md:grid-cols-3">
           <div className="flex flex-col gap-2">
