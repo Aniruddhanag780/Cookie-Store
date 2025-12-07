@@ -251,36 +251,35 @@ export default function LoginPage() {
         style={{ backgroundColor: 'black' }}
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-white">Welcome Back!</CardTitle>
-          <CardDescription className="text-white">Please enter your details</CardDescription>
+          <CardTitle className="text-3xl font-bold">Welcome Back!</CardTitle>
+          <CardDescription>Please enter your details</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">Email Address</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="m@example.com"
                   {...register('email')}
-                  className="bg-white text-black"
                 />
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input 
                     id="password" 
                     type={showPassword ? "text" : "password"} 
                     {...register('password')} 
-                    className="bg-white text-black pr-10" 
+                    className="pr-10" 
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-black"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3"
                   >
                     {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                   </button>
@@ -289,14 +288,14 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-white"/>
-                  <Label htmlFor="remember-me" className="text-sm font-light text-white">
+                  <Checkbox id="remember-me" {...register('rememberMe')} />
+                  <Label htmlFor="remember-me" className="text-sm font-light">
                     Remember me
                   </Label>
                 </div>
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button type="button" className="text-sm underline text-white">
+                    <button type="button" className="text-sm underline">
                       Forgot Password?
                     </button>
                   </AlertDialogTrigger>
@@ -325,7 +324,7 @@ export default function LoginPage() {
                 </AlertDialog>
               </div>
             </div>
-            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full">
               {isSubmitting ? 'Logging in...' : 'Login'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
@@ -339,13 +338,13 @@ export default function LoginPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2 text-black" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2 text-black" onClick={handleMicrosoftSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2 text-black" onClick={handleGitHubSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
@@ -353,11 +352,11 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline text-white">
+            <Link href="#" className="underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline text-white">
+            <Link href="#" className="underline">
               Privacy Policy
             </Link>
             .
@@ -366,7 +365,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{' '}
             <Link
               href="/signup"
-              className="underline text-white font-semibold"
+              className="underline font-semibold"
             >
               Sign Up
             </Link>
@@ -385,4 +384,5 @@ export default function LoginPage() {
   );
 }
 
+    
     
