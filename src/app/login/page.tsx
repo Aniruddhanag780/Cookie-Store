@@ -243,43 +243,41 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-[80dvh] p-4"
-      style={{ backgroundColor: '#121212' }}
+      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#121212] text-white"
     >
       <Card
-        className="w-full max-w-md border-none"
-        style={{ backgroundColor: 'black' }}
+        className="w-full max-w-md border-none bg-black"
       >
         <CardHeader className="text-center">
           <CardTitle className="text-3xl font-bold">Welcome Back!</CardTitle>
-          <CardDescription>Please enter your details</CardDescription>
+          <CardDescription className="text-muted-foreground">Please enter your details</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email" className="text-white">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
-                  placeholder="m@example.com"
+                  className="bg-zinc-800 border-zinc-700 text-white"
                   {...register('email')}
                 />
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-white">Password</Label>
                 <div className="relative">
                   <Input 
                     id="password" 
                     type={showPassword ? "text" : "password"} 
                     {...register('password')} 
-                    className="pr-10" 
+                    className="bg-zinc-800 border-zinc-700 text-white pr-10" 
                   />
-                  <button
+                   <button
                     type="button"
                     onClick={() => setShowPassword((prev) => !prev)}
-                    className="absolute inset-y-0 right-0 flex items-center pr-3"
+                    className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
                   >
                     {showPassword ? <Eye className="h-5 w-5" /> : <EyeOff className="h-5 w-5" />}
                   </button>
@@ -288,21 +286,21 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" {...register('rememberMe')} />
-                  <Label htmlFor="remember-me" className="text-sm font-light">
+                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-muted-foreground data-[state=checked]:bg-white data-[state=checked]:text-black" />
+                  <Label htmlFor="remember-me" className="text-sm font-light text-muted-foreground">
                     Remember me
                   </Label>
                 </div>
-                <AlertDialog>
+                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button type="button" className="text-sm underline">
+                    <button type="button" className="text-sm text-white underline">
                       Forgot Password?
                     </button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="bg-zinc-900 border-zinc-800 text-white">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Reset Password</AlertDialogTitle>
-                      <AlertDialogDescription>
+                      <AlertDialogDescription className="text-muted-foreground">
                         Enter your email address below to receive a password reset link.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -312,11 +310,11 @@ export default function LoginPage() {
                       placeholder="m@example.com"
                       value={resetEmail}
                       onChange={(e) => setResetEmail(e.target.value)}
-                      className="bg-background"
+                      className="bg-zinc-800 border-zinc-700 text-white"
                     />
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handlePasswordReset}>
+                      <AlertDialogCancel className="bg-zinc-700 border-zinc-600 hover:bg-zinc-600">Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handlePasswordReset} className="bg-white text-black hover:bg-gray-200">
                         Send Reset Link
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -324,27 +322,27 @@ export default function LoginPage() {
                 </AlertDialog>
               </div>
             </div>
-            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
               {isSubmitting ? 'Logging in...' : 'Login'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
 
           <div className="flex items-center gap-4 mt-6">
-            <Separator className="flex-1" />
+            <Separator className="flex-1 bg-zinc-700" />
             <span className="text-xs text-muted-foreground">
               OR CONTINUE WITH
             </span>
-            <Separator className="flex-1" />
+            <Separator className="flex-1 bg-zinc-700" />
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
+            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
+            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
@@ -352,11 +350,11 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline">
+            <Link href="#" className="underline text-white">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline">
+            <Link href="#" className="underline text-white">
               Privacy Policy
             </Link>
             .
@@ -365,7 +363,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{' '}
             <Link
               href="/signup"
-              className="underline font-semibold"
+              className="underline font-semibold text-white"
             >
               Sign Up
             </Link>
@@ -383,6 +381,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-    
-    
