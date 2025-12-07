@@ -243,13 +243,13 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#1E1E1E] text-white"
+      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#1E1E1E]"
     >
       <Card
-        className="w-full max-w-md border-none bg-black"
+        className="w-full max-w-md border-none bg-black text-white"
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Welcome Back!</CardTitle>
+          <CardTitle className="text-3xl font-bold text-white">Welcome Back!</CardTitle>
           <CardDescription className="text-muted-foreground">Please enter your details</CardDescription>
         </CardHeader>
         <CardContent>
