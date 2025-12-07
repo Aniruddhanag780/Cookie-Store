@@ -203,8 +203,8 @@ export default function SignupPage() {
         style={{ backgroundColor: 'black' }}
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold">Create an account</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-3xl font-bold text-white">Create an account</CardTitle>
+          <CardDescription className="text-white">
             Enter your details to get started
           </CardDescription>
         </CardHeader>
@@ -212,7 +212,7 @@ export default function SignupPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">Email Address</Label>
+                <Label htmlFor="email" className="text-white">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
@@ -223,7 +223,7 @@ export default function SignupPage() {
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password" className="text-white">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
@@ -242,7 +242,7 @@ export default function SignupPage() {
                 {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
@@ -267,13 +267,13 @@ export default function SignupPage() {
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="gap-2 text-black" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
+            <Button variant="outline" className="gap-2 text-black" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
+            <Button variant="outline" className="gap-2 text-black" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
@@ -281,18 +281,18 @@ export default function SignupPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline text-blue-500">
+            <Link href="#" className="underline text-white">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline text-blue-500">
+            <Link href="#" className="underline text-white">
               Privacy Policy
             </Link>
             .
           </p>
           <div className="text-sm text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/login" className="underline text-blue-500 font-semibold">
+            <Link href="/login" className="underline text-white font-semibold">
               Login
             </Link>
           </div>
@@ -309,3 +309,5 @@ export default function SignupPage() {
     </div>
   );
 }
+
+    
