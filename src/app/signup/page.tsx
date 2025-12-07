@@ -196,7 +196,7 @@ export default function SignupPage() {
   return (
     <div
       className="flex items-center justify-center min-h-[80dvh] p-4"
-      style={{ backgroundColor: '#121212' }}
+      style={{ backgroundColor: '#1E1E1E' }}
     >
       <Card
         className="w-full max-w-md border-none"
@@ -307,6 +307,3 @@ export default function SignupPage() {
     </div>
   );
 }
-
-    
-    

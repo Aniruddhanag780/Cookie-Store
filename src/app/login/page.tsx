@@ -243,7 +243,7 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#121212] text-white"
+      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#1E1E1E] text-white"
     >
       <Card
         className="w-full max-w-md border-none bg-black"
