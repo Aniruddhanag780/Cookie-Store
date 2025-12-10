@@ -9,6 +9,7 @@ import {
   SheetContent,
   SheetTrigger,
   SheetClose,
+  SheetTitle,
 } from '@/components/ui/sheet';
 import React from 'react';
 import { usePathname } from 'next/navigation';
@@ -23,6 +24,7 @@ import {
 import { useAuth, useUser } from '@/firebase';
 import { signOut } from 'firebase/auth';
 import { useToast } from '@/hooks/use-toast';
+import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
 const NavLink = ({
   href,
@@ -156,6 +158,9 @@ export default function Header() {
                 </Button>
               </SheetTrigger>
               <SheetContent side="left">
+                <VisuallyHidden>
+                  <SheetTitle>Mobile Menu</SheetTitle>
+                </VisuallyHidden>
                 <div className="flex flex-col gap-6 p-6">
                   <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 mb-4">
                      <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
