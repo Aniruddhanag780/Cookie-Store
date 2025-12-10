@@ -286,14 +286,14 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-muted-foreground data-[state=checked]:bg-white data-[state=checked]:text-black" />
-                  <Label htmlFor="remember-me" className="text-sm font-light text-muted-foreground">
+                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-blue-500 data-[state=checked]:bg-blue-500 data-[state=checked]:text-white" />
+                  <Label htmlFor="remember-me" className="text-sm font-light text-blue-500">
                     Remember me
                   </Label>
                 </div>
                  <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button type="button" className="text-sm text-white underline">
+                    <button type="button" className="text-sm text-blue-500 underline hover:text-blue-400">
                       Forgot Password?
                     </button>
                   </AlertDialogTrigger>
@@ -350,11 +350,11 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline text-white">
+            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline text-white">
+            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
               Privacy Policy
             </Link>
             .
@@ -363,7 +363,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{' '}
             <Link
               href="/signup"
-              className="underline font-semibold text-white"
+              className="underline font-semibold text-blue-500 hover:text-blue-400"
             >
               Sign Up
             </Link>
