@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-main",
-      "description": "Hero image showing a spread of freshly baked croissants and pastries",
-      "imageUrl": "https://images.unsplash.com/photo-1509440159596-024908877268?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxiYWtlcnklMjBwYXN0cmllc3xlbnwwfHx8fDE3NjQ1MTI0MTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bakery pastries"
+      "description": "A beautiful hero image of a freshly baked cake with decorative elements.",
+      "imageUrl": "https://i.ibb.co/5cgmz3v/hero-image.jpg",
+      "imageHint": "bakery cake"
     },
     {
       "id": "artisan-breads",
@@ -21,7 +21,7 @@
     {
       "id": "custom-cakes",
       "description": "A small custom cake with white frosting and a raspberry on top",
-      "imageUrl": "https://images.unsplash.com/photo-1586985289933-7196d5854935?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYWtlfGVufDB8fHx8MTc2NDUyMjQxM3ww&ixlib=rb-4.1.0&q=80&w=600",
+      "imageUrl": "https://images.unsplash.com/photo-1586985289933-7196d5854935?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjdXN0b20lMjBjYWtlfGVufDB8fHx8fDE3NjQ1MjI0MTN8MA&ixlib=rb-4.1.0&q=80&w=600",
       "imageHint": "custom cake"
     },
     {
