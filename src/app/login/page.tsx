@@ -24,6 +24,8 @@ import {
   browserSessionPersistence,
   browserLocalPersistence,
   sendPasswordResetEmail,
+  signOut,
+  sendEmailVerification,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -131,7 +133,19 @@ export default function LoginPage() {
         ? browserLocalPersistence
         : browserSessionPersistence;
       await setPersistence(auth, persistence);
-      await signInWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await signInWithEmailAndPassword(auth, data.email, data.password);
+      
+      if (!userCredential.user.emailVerified) {
+        await sendEmailVerification(userCredential.user);
+        await signOut(auth);
+        toast({
+          title: 'Verification Required',
+          description: 'Your email is not verified. A new verification email has been sent. Please check your inbox.',
+          variant: 'destructive',
+        });
+        return;
+      }
+      
       toast({
         title: 'Login Successful',
         description: 'Welcome back!',

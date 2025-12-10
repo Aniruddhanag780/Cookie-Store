@@ -19,6 +19,7 @@ import { z } from 'zod';
 import { useAuth } from '@/firebase';
 import {
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithPopup,
   GoogleAuthProvider,
   GithubAuthProvider,
@@ -118,10 +119,11 @@ export default function SignupPage() {
 
 
     try {
-      await createUserWithEmailAndPassword(auth, data.email, data.password);
+      const userCredential = await createUserWithEmailAndPassword(auth, data.email, data.password);
+      await sendEmailVerification(userCredential.user);
       toast({
         title: 'Account Created!',
-        description: 'You can now log in with your new account.',
+        description: 'A verification email has been sent. Please check your inbox.',
       });
       router.push('/login');
     } catch (error: any) {
