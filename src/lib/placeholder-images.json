@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-main",
-      "description": "A beautiful hero image of a freshly baked cake with decorative elements.",
+      "description": "A plate of beautiful butter cookies next to a cup of coffee.",
       "imageUrl": "https://i.ibb.co/yYyNqG3/32a76f236f0b.jpg",
-      "imageHint": "bakery cake"
+      "imageHint": "butter cookies"
     },
     {
       "id": "artisan-breads",
