@@ -17,7 +17,7 @@ const initialState = {
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
-    <Button type="submit" disabled={pending} className="w-full bg-white text-black hover:bg-gray-200 rounded-full h-12 font-semibold">
+    <Button type="submit" disabled={pending} className="w-full bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-12 font-semibold">
       {pending ? 'Subscribing...' : 'Subscribe'}
     </Button>
   );
@@ -52,12 +52,12 @@ export default function WelcomeEmailForm() {
       className="flex flex-col items-center space-y-4"
     >
       <div className="relative w-full">
-         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="email"
           name="email"
           placeholder="Enter your email address"
-          className="pl-12 h-12 rounded-full bg-white text-black placeholder:text-gray-500 border-none"
+          className="pl-12 h-12 rounded-full bg-card text-foreground placeholder:text-muted-foreground border-border"
           required
         />
       </div>

@@ -46,13 +46,13 @@ export default function Home() {
             data-ai-hint={heroImage.imageHint}
           />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-black/20" />
-        <div className="relative h-full flex flex-col items-center justify-center text-center text-white p-4">
+        <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
+        <div className="relative h-full flex flex-col items-center justify-center text-center text-foreground p-4">
           <div
             style={{ animationDelay: '0.2s' }}
             className="animate-fade-in opacity-0"
           >
-            <p className="text-lg md:text-xl text-neutral-200 mb-2">FRESHLY BAKED EVERY MORNING</p>
+            <p className="text-lg md:text-xl text-muted-foreground mb-2">FRESHLY BAKED EVERY MORNING</p>
             <h1 className="text-4xl md:text-7xl font-bold font-headline mb-4 text-shadow-lg">
               Freshly Baked,
               <br />
@@ -62,7 +62,7 @@ export default function Home() {
             <Button
               asChild
               size="lg"
-              className="group bg-white hover:bg-neutral-200 text-black font-bold text-lg mt-4"
+              className="group bg-primary text-primary-foreground font-bold text-lg mt-4"
             >
               <Link href="#">
                 Order Now{' '}
@@ -89,7 +89,7 @@ export default function Home() {
             {serviceCards.map((card) => {
               const cardImage = PlaceHolderImages.find(img => img.id === card.id)
               return (
-                 <Card key={card.id} className="bg-card border-none overflow-hidden text-left">
+                 <Card key={card.id} className="bg-card border-none overflow-hidden text-center shadow-lg">
                   {cardImage && (
                      <div className="relative h-64 w-full">
                        <Image
@@ -101,10 +101,10 @@ export default function Home() {
                        />
                      </div>
                   )}
-                  <CardContent className="p-6 space-y-4">
+                  <CardContent className="p-6 space-y-2">
                     <h3 className="text-2xl font-bold font-headline">{card.title}</h3>
                     <p className="text-muted-foreground">{card.description}</p>
-                    <Button variant="outline" className="text-white">Visit Bakery</Button>
+                    <Button variant="link" className="text-primary font-bold">Visit Bakery</Button>
                   </CardContent>
                 </Card>
               )
@@ -114,6 +114,7 @@ export default function Home() {
       </section>
 
       <section
+        id="visit-us-today"
         className="container mx-auto px-4"
         style={{ animationDelay: '0.6s' }}
       >
@@ -128,7 +129,7 @@ export default function Home() {
                  <p className="text-muted-foreground">
                     We are located in the heart of the city, ready to serve you the best pastries and breads you've ever tasted. Come by and say hello!
                  </p>
-                 <Button asChild size="lg" className="group bg-white hover:bg-neutral-200 text-black font-bold">
+                 <Button asChild size="lg" className="group bg-primary text-primary-foreground font-bold">
                     <Link href="#">Visit Us Today</Link>
                 </Button>
             </div>

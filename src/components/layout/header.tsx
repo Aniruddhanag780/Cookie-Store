@@ -1,7 +1,7 @@
 
 'use client';
 import Link from 'next/link';
-import { User, Menu, LogOut, ShoppingBag } from 'lucide-react';
+import { User, Menu, LogOut, ShoppingBag, Twitter, Facebook, Instagram, Github } from 'lucide-react';
 import CartIcon from '../cart/cart-icon';
 import { Button } from '../ui/button';
 import {
@@ -9,8 +9,6 @@ import {
   SheetContent,
   SheetTrigger,
   SheetClose,
-  SheetHeader,
-  SheetTitle,
 } from '@/components/ui/sheet';
 import React from 'react';
 import { usePathname } from 'next/navigation';
@@ -43,14 +41,11 @@ const NavLink = ({
       href={href}
       onClick={onClick}
       className={cn(
-        'transition-colors hover:text-primary uppercase tracking-wider',
-        isActive ? 'text-primary font-semibold' : 'text-muted-foreground'
+        'transition-colors hover:text-primary uppercase tracking-wider font-medium relative text-sm',
+        isActive ? 'text-primary' : 'text-foreground'
       )}
     >
       {children}
-      {isActive && (
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-2 h-[3px] bg-primary rounded-full" />
-      )}
     </Link>
   );
 };
@@ -80,21 +75,21 @@ export default function Header() {
   }, []);
 
   const navLinks = (
-    <div className="flex flex-col gap-4 text-lg font-medium">
+    <>
       <NavLink href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
       <NavLink href="/#why-choose-us" onClick={() => setIsMobileMenuOpen(false)}>Menu</NavLink>
       <NavLink href="/#visit-us-today" onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-      {user && <NavLink href="/account" onClick={() => setIsMobileMenuOpen(false)}>My Account</NavLink>}
-    </div>
+      <NavLink href="#" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</NavLink>
+    </>
   );
 
   return (
     <header
       className={cn(
-        'sticky top-0 z-40 w-full transition-all duration-300',
+        'sticky top-0 z-40 w-full transition-shadow duration-300',
         isScrolled
-          ? 'border-b bg-background/80 backdrop-blur-lg'
-          : 'bg-transparent'
+          ? 'shadow-md bg-background/80 backdrop-blur-lg'
+          : 'bg-background'
       )}
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
@@ -102,63 +97,27 @@ export default function Header() {
           <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-          <NavLink href="/">Home</NavLink>
-          <NavLink href="/#why-choose-us">Menu</NavLink>
-          <NavLink href="/#visit-us-today">About</NavLink>
-          <NavLink href="#">Contact Us</NavLink>
+        <nav className="hidden md:flex items-center gap-8">
+          {navLinks}
         </nav>
 
-        <div className="flex items-center gap-4">
-           <Button className="hidden md:inline-flex bg-white text-black hover:bg-neutral-200">Order Now</Button>
-          
-          <div className="md:hidden">
-            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
-              <SheetTrigger asChild>
-                <Button variant="ghost" size="icon">
-                  <Menu className="h-6 w-6" />
-                  <span className="sr-only">Toggle Menu</span>
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left">
-                <SheetHeader>
-                  <SheetTitle className="sr-only">Mobile Menu</SheetTitle>
-                </SheetHeader>
-                <div className="flex flex-col gap-6 p-6">
-                  <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 mb-4">
-                     <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
-                  </Link>
-                  <nav>{navLinks}</nav>
-                  <div className="mt-auto">
-                    {user ? (
-                      <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full">
-                        <LogOut className="mr-2 h-4 w-4" /> Logout
-                      </Button>
-                    ) : (
-                      <div className="space-y-2">
-                        <SheetClose asChild>
-                           <Button asChild className="w-full">
-                              <Link href="/login">Login</Link>
-                           </Button>
-                        </SheetClose>
-                         <SheetClose asChild>
-                           <Button asChild variant="secondary" className="w-full">
-                              <Link href="/signup">Sign Up</Link>
-                           </Button>
-                         </SheetClose>
-                      </div>
-                    )}
-                  </div>
-                </div>
-              </SheetContent>
-            </Sheet>
+        <div className="flex items-center gap-2">
+          <div className="hidden md:flex items-center gap-2">
+            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Twitter className="h-4 w-4" /></Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Facebook className="h-4 w-4" /></Link>
+            <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Instagram className="h-4 w-4" /></Link>
           </div>
+          <Button asChild className="hidden md:inline-flex bg-primary text-primary-foreground hover:bg-primary/90 rounded-full">
+            <Link href="#">Order Now</Link>
+          </Button>
 
+          <CartIcon />
+          
           {!isUserLoading && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="hidden md:flex">
-                  <User className="h-6 w-6" />
+                <Button variant="ghost" size="icon">
+                  <User className="h-5 w-5" />
                   <span className="sr-only">Account</span>
                 </Button>
               </DropdownMenuTrigger>
@@ -188,7 +147,50 @@ export default function Header() {
             </DropdownMenu>
           )}
 
-          <CartIcon />
+          <div className="md:hidden">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle Menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <div className="flex flex-col gap-6 p-6">
+                  <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 mb-4">
+                     <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
+                  </Link>
+                  <nav className="flex flex-col gap-4 text-lg">
+                    {navLinks}
+                    {user && <NavLink href="/account" onClick={() => setIsMobileMenuOpen(false)}>My Account</NavLink>}
+                  </nav>
+                  <Button asChild className="mt-4 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full">
+                    <Link href="#">Order Now</Link>
+                  </Button>
+                  <div className="mt-auto">
+                    {user ? (
+                      <Button onClick={() => { handleLogout(); setIsMobileMenuOpen(false); }} className="w-full">
+                        <LogOut className="mr-2 h-4 w-4" /> Logout
+                      </Button>
+                    ) : (
+                      <div className="space-y-2">
+                        <SheetClose asChild>
+                           <Button asChild className="w-full">
+                              <Link href="/login">Login</Link>
+                           </Button>
+                        </SheetClose>
+                         <SheetClose asChild>
+                           <Button asChild variant="secondary" className="w-full">
+                              <Link href="/signup">Sign Up</Link>
+                           </Button>
+                         </SheetClose>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>

@@ -20,8 +20,8 @@ export default function CartPage() {
 
   if (cart.length === 0) {
     return (
-       <div style={{ backgroundColor: '#121212' }} className="min-h-[calc(100vh-20rem)] flex flex-col items-center justify-center text-center">
-        <h1 className="text-3xl md:text-4xl font-bold font-headline mb-4 text-white">
+       <div className="min-h-[calc(100vh-20rem)] flex flex-col items-center justify-center text-center p-4">
+        <h1 className="text-3xl md:text-4xl font-bold font-headline mb-4">
           Your Cart is Empty
         </h1>
         <p className="text-muted-foreground mb-8">
@@ -39,18 +39,18 @@ export default function CartPage() {
   const total = cartTotal - discount + deliveryFee;
 
   return (
-    <div style={{ backgroundColor: '#121212' }} className="min-h-screen">
-      <div className="container mx-auto px-4 py-8 md:py-12 text-black">
-        <div className="text-sm text-gray-400 mb-4">
-            Home &gt; <span className="text-white">Cart</span>
+    <div className="bg-background">
+      <div className="container mx-auto px-4 py-8 md:py-12">
+        <div className="text-sm text-muted-foreground mb-4">
+            Home &gt; <span className="text-foreground">Cart</span>
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-white uppercase">
+        <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8 uppercase">
           Your Cart
         </h1>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           <div className="lg:col-span-2 space-y-4">
             {cart.map((item) => (
-              <Card key={item.id} className="bg-white rounded-xl shadow-none border-none">
+              <Card key={item.id} className="bg-card shadow-sm border">
                 <CardContent className="p-6 flex items-center justify-between">
                   <div className="flex items-center gap-6">
                     <div className="relative h-28 w-28 overflow-hidden rounded-lg bg-gray-100">
@@ -63,17 +63,17 @@ export default function CartPage() {
                     </div>
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg">{item.name}</h3>
-                      <p className="text-sm text-gray-500">Size: Large</p>
-                      <p className="text-sm text-gray-500">Color: White</p>
+                      <p className="text-sm text-muted-foreground">Size: Large</p>
+                      <p className="text-sm text-muted-foreground">Color: White</p>
                       <p className="font-bold text-xl mt-2">{formatCurrency(item.price)}</p>
                     </div>
                   </div>
                   <div className="flex items-center gap-6">
-                     <div className="flex items-center gap-2 rounded-full bg-gray-100 p-2">
+                     <div className="flex items-center gap-2 rounded-full bg-secondary p-2">
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-7 w-7 rounded-full text-gray-600 hover:bg-gray-200"
+                          className="h-7 w-7 rounded-full text-muted-foreground hover:bg-muted"
                           onClick={() => updateQuantity(item.id, item.quantity - 1)}
                         >
                           <Minus className="h-4 w-4" />
@@ -82,7 +82,7 @@ export default function CartPage() {
                         <Button
                            variant="ghost"
                            size="icon"
-                           className="h-7 w-7 rounded-full text-gray-600 hover:bg-gray-200"
+                           className="h-7 w-7 rounded-full text-muted-foreground hover:bg-muted"
                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
                         >
                           <Plus className="h-4 w-4" />
@@ -102,7 +102,7 @@ export default function CartPage() {
             ))}
           </div>
           <div className="lg:col-span-1">
-            <Card className="bg-white rounded-xl shadow-none border-none sticky top-24">
+            <Card className="bg-card shadow-sm border sticky top-24">
               <CardHeader>
                 <CardTitle className="text-2xl font-bold">Order Summary</CardTitle>
               </CardHeader>
@@ -125,11 +125,11 @@ export default function CartPage() {
                   <span>{formatCurrency(total)}</span>
                 </div>
                  <div className="relative flex items-center">
-                    <Input placeholder="Add promo code" className="bg-gray-100 border-none rounded-full h-12 pr-24"/>
-                    <Button className="absolute right-1 bg-black text-white hover:bg-gray-800 rounded-full h-10 px-6">Apply</Button>
+                    <Input placeholder="Add promo code" className="bg-secondary border-none rounded-full h-12 pr-24"/>
+                    <Button className="absolute right-1 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full h-10 px-6">Apply</Button>
                 </div>
 
-                <Button asChild size="lg" className="w-full h-12 bg-black text-white hover:bg-gray-800 rounded-full font-bold text-base">
+                <Button asChild size="lg" className="w-full h-12 bg-primary text-primary-foreground hover:bg-primary/90 rounded-full font-bold text-base">
                   <Link href="/checkout">Go to Checkout &rarr;</Link>
                 </Button>
               </CardContent>

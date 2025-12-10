@@ -197,14 +197,14 @@ export default function SignupPage() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-[80dvh] p-4 bg-[#1E1E1E]"
+      className="flex items-center justify-center min-h-[80dvh] p-4 bg-background"
     >
       <Card
-        className="w-full max-w-md border-none bg-black text-white"
+        className="w-full max-w-md border shadow-lg"
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-white">Create an account</CardTitle>
-          <CardDescription className="text-muted-foreground">
+          <CardTitle className="text-3xl font-bold">Create an account</CardTitle>
+          <CardDescription>
             Enter your details to get started
           </CardDescription>
         </CardHeader>
@@ -212,24 +212,24 @@ export default function SignupPage() {
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">Email Address</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
                   placeholder="m@example.com"
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  className="bg-background"
                   {...register('email')}
                 />
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
                     {...register('password')}
-                    className="bg-zinc-800 border-zinc-700 text-white pr-10"
+                    className="bg-background pr-10"
                   />
                   <button
                     type="button"
@@ -242,38 +242,38 @@ export default function SignupPage() {
                 {errors.password && <p className="text-destructive text-xs">{errors.password.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="confirmPassword" className="text-white">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Confirm Password</Label>
                 <Input
                   id="confirmPassword"
                   type="password"
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  className="bg-background"
                   {...register('confirmPassword')}
                 />
                 {errors.confirmPassword && <p className="text-destructive text-xs">{errors.confirmPassword.message}</p>}
               </div>
 
             </div>
-            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full">
               {isSubmitting ? 'Creating Account...' : 'Create account'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
 
           <div className="flex items-center gap-4 mt-6">
-            <Separator className="flex-1 bg-zinc-700" />
+            <Separator className="flex-1" />
             <span className="text-xs text-muted-foreground">
               OR CONTINUE WITH
             </span>
-            <Separator className="flex-1 bg-zinc-700" />
+            <Separator className="flex-1" />
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleMicrosoftSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGitHubSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
@@ -281,18 +281,18 @@ export default function SignupPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
+            <Link href="#" className="underline text-primary hover:no-underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
+            <Link href="#" className="underline text-primary hover:no-underline">
               Privacy Policy
             </Link>
             .
           </p>
           <div className="text-sm text-muted-foreground">
             Already have an account?{' '}
-            <Link href="/login" className="underline font-semibold text-blue-500 hover:text-blue-400">
+            <Link href="/login" className="underline font-semibold text-primary hover:no-underline">
               Login
             </Link>
           </div>
@@ -303,7 +303,6 @@ export default function SignupPage() {
           ref={recaptchaRef}
           size="invisible"
           sitekey={siteKey}
-          theme="dark"
         />
       ) : <p className="text-destructive text-xs mt-4">reCAPTCHA site key not configured.</p>}
     </div>

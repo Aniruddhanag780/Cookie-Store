@@ -257,36 +257,37 @@ export default function LoginPage() {
 
   return (
     <div
-      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-[#1E1E1E]"
+      className="flex items-center justify-center min-h-[calc(100vh-theme(spacing.20))] p-4 bg-background"
     >
       <Card
-        className="w-full max-w-md border-none bg-black text-white"
+        className="w-full max-w-md border shadow-lg"
       >
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-white">Welcome Back!</CardTitle>
+          <CardTitle className="text-3xl font-bold">Welcome Back!</CardTitle>
           <CardDescription className="text-muted-foreground">Please enter your details</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email" className="text-white">Email Address</Label>
+                <Label htmlFor="email">Email Address</Label>
                 <Input
                   id="email"
                   type="email"
-                  className="bg-zinc-800 border-zinc-700 text-white"
+                  placeholder="m@example.com"
+                  className="bg-background"
                   {...register('email')}
                 />
                 {errors.email && <p className="text-destructive text-xs">{errors.email.message}</p>}
               </div>
               <div className="grid gap-2">
-                <Label htmlFor="password" className="text-white">Password</Label>
+                <Label htmlFor="password">Password</Label>
                 <div className="relative">
                   <Input 
                     id="password" 
                     type={showPassword ? "text" : "password"} 
                     {...register('password')} 
-                    className="bg-zinc-800 border-zinc-700 text-white pr-10" 
+                    className="bg-background pr-10" 
                   />
                    <button
                     type="button"
@@ -300,21 +301,21 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-gray-500 data-[state=checked]:bg-white data-[state=checked]:text-black" />
-                  <Label htmlFor="remember-me" className="text-sm font-light text-gray-300">
+                  <Checkbox id="remember-me" {...register('rememberMe')} className="data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground" />
+                  <Label htmlFor="remember-me" className="text-sm font-light text-muted-foreground">
                     Remember me
                   </Label>
                 </div>
                  <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <button type="button" className="text-sm text-blue-500 underline hover:text-blue-400">
+                    <button type="button" className="text-sm text-primary hover:underline">
                       Forgot Password?
                     </button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-zinc-900 border-zinc-800 text-white">
+                  <AlertDialogContent>
                     <AlertDialogHeader>
                       <AlertDialogTitle>Reset Password</AlertDialogTitle>
-                      <AlertDialogDescription className="text-muted-foreground">
+                      <AlertDialogDescription>
                         Enter your email address below to receive a password reset link.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -324,11 +325,10 @@ export default function LoginPage() {
                       placeholder="m@example.com"
                       value={resetEmail}
                       onChange={(e) => setResetEmail(e.target.value)}
-                      className="bg-zinc-800 border-zinc-700 text-white"
                     />
                     <AlertDialogFooter>
-                      <AlertDialogCancel className="bg-zinc-700 border-zinc-600 hover:bg-zinc-600">Cancel</AlertDialogCancel>
-                      <AlertDialogAction onClick={handlePasswordReset} className="bg-white text-black hover:bg-gray-200">
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction onClick={handlePasswordReset}>
                         Send Reset Link
                       </AlertDialogAction>
                     </AlertDialogFooter>
@@ -336,27 +336,27 @@ export default function LoginPage() {
                 </AlertDialog>
               </div>
             </div>
-            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full bg-white text-black hover:bg-gray-200">
+            <Button type="submit" disabled={isSubmitting || !siteKey} className="w-full">
               {isSubmitting ? 'Logging in...' : 'Login'} <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </form>
 
           <div className="flex items-center gap-4 mt-6">
-            <Separator className="flex-1 bg-zinc-700" />
+            <Separator className="flex-1" />
             <span className="text-xs text-muted-foreground">
               OR CONTINUE WITH
             </span>
-            <Separator className="flex-1 bg-zinc-700" />
+            <Separator className="flex-1" />
           </div>
 
           <div className="grid grid-cols-3 gap-3 mt-6">
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGoogleSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGoogleSignIn}>
               <GoogleIcon /> Google
             </Button>
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleMicrosoftSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleMicrosoftSignIn}>
               <MicrosoftIcon /> Microsoft
             </Button>
-            <Button variant="outline" className="gap-2 bg-zinc-800 border-zinc-700 hover:bg-zinc-700 text-white" onClick={handleGitHubSignIn}>
+            <Button variant="outline" className="gap-2" onClick={handleGitHubSignIn}>
               <GitHubIcon /> GitHub
             </Button>
           </div>
@@ -364,11 +364,11 @@ export default function LoginPage() {
         <CardFooter className="flex flex-col gap-4 text-center text-xs">
           <p className="text-muted-foreground">
             By creating an account, you agree to our{' '}
-            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
+            <Link href="#" className="underline text-primary hover:no-underline">
               Terms of Service
             </Link>{' '}
             and{' '}
-            <Link href="#" className="underline text-blue-500 hover:text-blue-400">
+            <Link href="#" className="underline text-primary hover:no-underline">
               Privacy Policy
             </Link>
             .
@@ -377,7 +377,7 @@ export default function LoginPage() {
             Don&apos;t have an account?{' '}
             <Link
               href="/signup"
-              className="underline font-semibold text-blue-500 hover:text-blue-400"
+              className="underline font-semibold text-primary hover:no-underline"
             >
               Sign Up
             </Link>
@@ -389,7 +389,6 @@ export default function LoginPage() {
           ref={recaptchaRef}
           size="invisible"
           sitekey={siteKey}
-          theme="dark"
         />
       ) : <p className="text-destructive text-xs mt-4">reCAPTCHA site key not configured.</p>}
     </div>
