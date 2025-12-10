@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useActionState, useEffect, useRef } from 'react';
@@ -17,7 +18,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" disabled={pending} className="w-full bg-white text-black hover:bg-gray-200 rounded-full h-12 font-semibold">
-      {pending ? 'Subscribing...' : 'Subscribe to Newsletter'}
+      {pending ? 'Subscribing...' : 'Subscribe'}
     </Button>
   );
 }
@@ -56,7 +57,7 @@ export default function WelcomeEmailForm() {
           type="email"
           name="email"
           placeholder="Enter your email address"
-          className="pl-12 h-12 rounded-full bg-white text-black placeholder:text-gray-500"
+          className="pl-12 h-12 rounded-full bg-white text-black placeholder:text-gray-500 border-none"
           required
         />
       </div>

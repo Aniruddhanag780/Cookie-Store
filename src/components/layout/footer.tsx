@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import { Facebook, Github, Instagram, Twitter } from 'lucide-react';
 import WelcomeEmailForm from '../welcome-email-form';
@@ -53,12 +54,12 @@ const PaymentIcons = () => (
 
 export default function Footer() {
   return (
-    <footer>
-      <section className="py-12 bg-black text-white">
+    <footer className="mt-16 md:mt-24">
+      <section className="py-12 bg-zinc-900 text-white">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-8">
-            <h2 className="text-3xl md:text-4xl font-bold font-headline max-w-sm leading-tight uppercase">
-              Stay upto date about our latest offers
+            <h2 className="text-3xl md:text-4xl font-bold font-headline max-w-lg leading-tight uppercase">
+              Stay up to date about our latest offers
             </h2>
             <div className="w-full md:max-w-md">
               <WelcomeEmailForm />
@@ -67,29 +68,29 @@ export default function Footer() {
         </div>
       </section>
       
-      <section className="bg-footer text-footer-foreground py-12">
+      <section className="bg-zinc-950 text-neutral-300 py-12">
         <div className="container mx-auto px-4">
           <div className="grid gap-12 md:grid-cols-5">
             <div className="flex flex-col gap-4 md:col-span-2 lg:col-span-1">
               <Link href="/" className="flex items-center gap-2 mb-2">
-                <span className="text-2xl font-bold font-headline">SHOP.CO</span>
+                <span className="text-2xl font-bold font-headline uppercase tracking-widest text-white">Bakery</span>
               </Link>
-              <p className="text-sm max-w-xs">
-                We have clothes that suit your style and which you&apos;re proud to wear. From women to men.
+              <p className="text-sm max-w-xs text-neutral-400">
+                We have breads, pastries, and cakes that suit your taste. Freshly baked for you.
               </p>
               <div className="flex gap-4 mt-2">
-                  <Link href="#" className="hover:text-primary transition-colors"><Twitter className="h-5 w-5" /></Link>
-                  <Link href="#" className="hover:text-primary transition-colors"><Facebook className="h-5 w-5" /></Link>
-                  <Link href="#" className="hover:text-primary transition-colors"><Instagram className="h-5 w-5" /></Link>
-                  <Link href="#" className="hover:text-primary transition-colors"><Github className="h-5 w-5" /></Link>
+                  <Link href="#" className="text-neutral-400 hover:text-white transition-colors"><Twitter className="h-5 w-5" /></Link>
+                  <Link href="#" className="text-neutral-400 hover:text-white transition-colors"><Facebook className="h-5 w-5" /></Link>
+                  <Link href="#" className="text-neutral-400 hover:text-white transition-colors"><Instagram className="h-5 w-5" /></Link>
+                  <Link href="#" className="text-neutral-400 hover:text-white transition-colors"><Github className="h-5 w-5" /></Link>
               </div>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:col-span-3 lg:col-span-4">
               {footerLinks.map((section) => (
                 <div key={section.title} className="flex flex-col gap-3 text-sm">
-                  <h4 className="font-semibold font-headline uppercase tracking-wider mb-2">{section.title}</h4>
+                  <h4 className="font-semibold font-headline uppercase tracking-wider mb-2 text-white">{section.title}</h4>
                   {section.links.map((link) => (
-                    <Link key={link.label} href={link.href} className="text-footer-foreground/80 hover:text-footer-foreground transition-colors">
+                    <Link key={link.label} href={link.href} className="text-neutral-400 hover:text-white transition-colors">
                       {link.label}
                     </Link>
                   ))}
@@ -97,9 +98,9 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          <hr className="my-8 border-footer-foreground/20" />
+          <hr className="my-8 border-neutral-700" />
            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-             <p className="text-footer-foreground/80">Shop.co © 2000-2023, All Rights Reserved</p>
+             <p className="text-neutral-500">Bakery © 2024, All Rights Reserved</p>
              <PaymentIcons />
           </div>
         </div>

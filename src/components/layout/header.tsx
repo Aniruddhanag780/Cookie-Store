@@ -1,6 +1,7 @@
+
 'use client';
 import Link from 'next/link';
-import { Package, User, Menu, LogOut } from 'lucide-react';
+import { User, Menu, LogOut, ShoppingBag } from 'lucide-react';
 import CartIcon from '../cart/cart-icon';
 import { Button } from '../ui/button';
 import {
@@ -42,7 +43,7 @@ const NavLink = ({
       href={href}
       onClick={onClick}
       className={cn(
-        'transition-colors hover:text-primary relative',
+        'transition-colors hover:text-primary uppercase tracking-wider',
         isActive ? 'text-primary font-semibold' : 'text-muted-foreground'
       )}
     >
@@ -81,7 +82,8 @@ export default function Header() {
   const navLinks = (
     <div className="flex flex-col gap-4 text-lg font-medium">
       <NavLink href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-      <NavLink href="/#products" onClick={() => setIsMobileMenuOpen(false)}>Products</NavLink>
+      <NavLink href="/#why-choose-us" onClick={() => setIsMobileMenuOpen(false)}>Menu</NavLink>
+      <NavLink href="/#visit-us-today" onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
       {user && <NavLink href="/account" onClick={() => setIsMobileMenuOpen(false)}>My Account</NavLink>}
     </div>
   );
@@ -97,17 +99,19 @@ export default function Header() {
     >
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2">
-          <Package className="h-7 w-7 text-primary" />
-          <span className="text-xl font-bold font-headline">AnimEcom</span>
+          <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
         </Link>
 
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <NavLink href="/">Home</NavLink>
-          <NavLink href="/#products">Products</NavLink>
-          {user && <NavLink href="/account">My Account</NavLink>}
+          <NavLink href="/#why-choose-us">Menu</NavLink>
+          <NavLink href="/#visit-us-today">About</NavLink>
+          <NavLink href="#">Contact Us</NavLink>
         </nav>
 
         <div className="flex items-center gap-4">
+           <Button className="hidden md:inline-flex bg-white text-black hover:bg-neutral-200">Order Now</Button>
+          
           <div className="md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
@@ -122,8 +126,7 @@ export default function Header() {
                 </SheetHeader>
                 <div className="flex flex-col gap-6 p-6">
                   <Link href="/" onClick={() => setIsMobileMenuOpen(false)} className="flex items-center gap-2 mb-4">
-                    <Package className="h-7 w-7 text-primary" />
-                    <span className="text-xl font-bold font-headline">AnimEcom</span>
+                     <span className="text-2xl font-bold font-headline uppercase tracking-widest">Bakery</span>
                   </Link>
                   <nav>{navLinks}</nav>
                   <div className="mt-auto">
