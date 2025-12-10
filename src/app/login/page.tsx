@@ -286,8 +286,8 @@ export default function LoginPage() {
               </div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-blue-500 data-[state=checked]:bg-blue-500 data-[state=checked]:text-white" />
-                  <Label htmlFor="remember-me" className="text-sm font-light text-blue-500">
+                  <Checkbox id="remember-me" {...register('rememberMe')} className="border-gray-500 data-[state=checked]:bg-white data-[state=checked]:text-black" />
+                  <Label htmlFor="remember-me" className="text-sm font-light text-gray-300">
                     Remember me
                   </Label>
                 </div>
