@@ -1,10 +1,10 @@
 {
   "placeholderImages": [
     {
-      "id": "hero-1",
-      "description": "A beautiful hero image of a freshly baked cake with decorative elements.",
-      "imageUrl": "https://i.ibb.co/5cgmz3v/hero-image.jpg",
-      "imageHint": "bakery cake"
+      "id": "hero-sweet-cookies",
+      "description": "A hero banner for sweet cookies, with a jar of cookies and text.",
+      "imageUrl": "https://i.ibb.co/S7W7p5s/sweet-cookies-banner.png",
+      "imageHint": "cookies banner"
     },
     {
       "id": "hero-2",

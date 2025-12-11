@@ -5,13 +5,6 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@/components/ui/carousel';
 
 const serviceCards = [
   {
@@ -38,67 +31,27 @@ const serviceCards = [
 ];
 
 export default function Home() {
-  const heroImages = PlaceHolderImages.filter((img) =>
-    img.id.startsWith('hero-')
-  );
+  const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-sweet-cookies');
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
       <section className="relative w-full">
-        <Carousel
-          className="w-full"
-          opts={{
-            loop: true,
-          }}
-        >
-          <CarouselContent>
-            {heroImages.map((heroImage) => (
-              <CarouselItem key={heroImage.id}>
-                <div className="relative w-full aspect-[16/9]">
-                  <Image
-                    src={heroImage.imageUrl}
-                    alt={heroImage.description}
-                    fill
-                    className="object-cover"
-                    priority={heroImages.indexOf(heroImage) === 0}
-                    data-ai-hint={heroImage.imageHint}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/30 to-transparent" />
-                  <div className="relative h-full flex flex-col items-center justify-center text-center text-foreground p-4">
-                    <div
-                      style={{ animationDelay: '0.2s' }}
-                      className="animate-fade-in opacity-0"
-                    >
-                      <p className="text-lg md:text-xl text-muted-foreground mb-2">
-                        FRESHLY BAKED EVERY MORNING
-                      </p>
-                      <h1 className="text-4xl md:text-7xl font-bold font-headline mb-4 text-shadow-lg">
-                        Freshly Baked,
-                        <br />
-                        Just for You!
-                      </h1>
-
-                      <Button
-                        asChild
-                        size="lg"
-                        className="group bg-primary text-primary-foreground font-bold text-lg mt-4"
-                      >
-                        <Link href="#">
-                          Order Now{' '}
-                          <ArrowRight className="ml-2 h-5 w-5 transition-transform group-hover:translate-x-1" />
-                        </Link>
-                      </Button>
-                    </div>
-                  </div>
+        {heroImage && (
+            <Link href="#">
+                <div className="relative w-full aspect-[1920/887]">
+                    <Image
+                        src={heroImage.imageUrl}
+                        alt={heroImage.description}
+                        fill
+                        className="object-cover"
+                        priority
+                        data-ai-hint={heroImage.imageHint}
+                    />
                 </div>
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
-          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
-        </Carousel>
+            </Link>
+        )}
       </section>
 
       <section
