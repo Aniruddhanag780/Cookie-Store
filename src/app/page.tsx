@@ -5,6 +5,9 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
+import { products } from '@/lib/products';
+import { formatCurrency } from '@/lib/utils';
+import AddToCartButton from '@/components/cart/add-to-cart-button';
 
 const serviceCards = [
   {
@@ -33,6 +36,7 @@ const serviceCards = [
 export default function Home() {
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
+  const featuredProduct = products.find(p => p.id === '13');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
@@ -88,6 +92,41 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {featuredProduct && (
+        <section
+          id="featured-product"
+          className="container mx-auto px-4 bg-secondary/30 rounded-lg py-12"
+          style={{ animationDelay: '0.5s' }}
+        >
+          <div className="animate-fade-in opacity-0 grid md:grid-cols-2 gap-8 items-center">
+            <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+              <Image
+                src={featuredProduct.image}
+                alt={featuredProduct.name}
+                fill
+                className="object-cover"
+                data-ai-hint={featuredProduct.imageHint}
+              />
+            </div>
+            <div className="space-y-4 text-center md:text-left">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-primary">Featured Product</h3>
+              <h2 className="text-3xl md:text-4xl font-bold font-headline">
+                {featuredProduct.name}
+              </h2>
+              <p className="text-muted-foreground text-lg">
+                {featuredProduct.description}
+              </p>
+              <div className="flex items-center justify-center md:justify-start gap-4">
+                 <p className="text-3xl font-bold text-primary">
+                    {formatCurrency(featuredProduct.price)}
+                 </p>
+                 <AddToCartButton product={featuredProduct} size="lg" />
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <section
         id="visit-us-today"
