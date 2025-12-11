@@ -106,7 +106,7 @@ export default function ContactPage() {
               <a href="https://wa.me/916296731835" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Click Here to Message Us</a>
             </InfoRow>
             <InfoRow label="Email">
-               <a href="mailto:order@crunchbites.in" className="text-primary hover:underline">order@crunchbites.in</a>
+               <a href="mailto:inbox.lyra@gmail.com" className="text-primary hover:underline">inbox.lyra@gmail.com</a>
             </InfoRow>
             <InfoRow label="Physical Address">
               Vishla Foods Private Limited, 11-10-89, Shop No. 3, Sunline Residency Building, Road No. 3, SBI Colony, Kothapet, 500035 Hyderabad TS, India
