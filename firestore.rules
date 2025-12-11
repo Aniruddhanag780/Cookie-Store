@@ -90,6 +90,15 @@ service cloud.firestore {
              data.submittedAt == request.time;
     }
 
+     /**
+     * Validates the schema for a newsletter subscription.
+     */
+    function isValidNewsletterSubscription() {
+      let data = request.resource.data;
+      return data.email is string && data.email.matches('.+@.+\\..+') &&
+             data.subscribedAt == request.time;
+    }
+
     //-------------------------------------------------------------------------
     // Collection Rules: /users
     //-------------------------------------------------------------------------
@@ -128,6 +137,17 @@ service cloud.firestore {
     match /contactus/{contactId} {
       allow create: if isValidContactMessage();
       allow read, update, delete: if false;
+    }
+
+    /**
+     * @description Collection for newsletter subscriptions.
+     * @path /newsletterSubscriptions/{subscriptionId}
+     * @allow (create) Anyone can subscribe to the newsletter.
+     * @deny (read, list, update, delete) Client-side reads and modifications are blocked for privacy.
+     */
+    match /newsletterSubscriptions/{subscriptionId} {
+        allow create: if isValidNewsletterSubscription();
+        allow read, update, delete: if false;
     }
   }
 }

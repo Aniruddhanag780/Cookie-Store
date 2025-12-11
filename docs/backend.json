@@ -99,6 +99,27 @@
         "message",
         "submittedAt"
       ]
+    },
+    "NewsletterSubscription": {
+      "title": "NewsletterSubscription",
+      "type": "object",
+      "description": "Represents an email subscribed to the newsletter.",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the subscriber."
+        },
+        "subscribedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the subscription was made."
+        }
+      },
+      "required": [
+        "email",
+        "subscribedAt"
+      ]
     }
   },
   "auth": {
@@ -156,6 +177,22 @@
             {
               "name": "contactId",
               "description": "The unique identifier for the contact message."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/newsletterSubscriptions/{subscriptionId}",
+        "definition": {
+          "entityName": "NewsletterSubscription",
+          "schema": {
+            "$ref": "#/backend/entities/NewsletterSubscription"
+          },
+          "description": "Stores email addresses for newsletter subscriptions. Publicly writable but not readable by clients.",
+          "params": [
+            {
+              "name": "subscriptionId",
+              "description": "The unique identifier for the subscription."
             }
           ]
         }
