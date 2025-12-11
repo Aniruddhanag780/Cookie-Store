@@ -1,3 +1,4 @@
+
 'use client';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -34,7 +35,18 @@ export default function Home() {
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24 pt-16 md:pt-24">
+    <div className="flex flex-col gap-16 md:gap-24">
+      <section className="relative w-full h-96">
+        <Image
+          src="https://i.pinimg.com/originals/9a/c3/97/9ac397558778f253729994c6533d1872.jpg"
+          alt="Bakery storefront"
+          fill
+          className="object-cover"
+          data-ai-hint="bakery storefront"
+          priority
+        />
+      </section>
+      
       <section
         id="why-choose-us"
         className="container mx-auto px-4"
