@@ -1,8 +1,6 @@
 'use client';
-import { useMemo } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
@@ -32,25 +30,11 @@ const serviceCards = [
 ];
 
 export default function Home() {
-  const heroBanner = PlaceHolderImages.find(img => img.id === 'hero-banner');
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
-    <div className="flex flex-col gap-16 md:gap-24">
-      
-      {heroBanner && (
-        <Image
-            src={heroBanner.imageUrl}
-            alt={heroBanner.description}
-            width={626}
-            height={417}
-            className="w-full h-auto object-cover mx-auto"
-            priority
-            data-ai-hint={heroBanner.imageHint}
-          />
-      )}
-
+    <div className="flex flex-col gap-16 md:gap-24 pt-16 md:pt-24">
       <section
         id="why-choose-us"
         className="container mx-auto px-4"
