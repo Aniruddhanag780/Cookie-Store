@@ -20,6 +20,7 @@ const footerLinks = [
       { label: 'Delivery Details', href: '#' },
       { label: 'Terms & Conditions', href: '#' },
       { label: 'Privacy Policy', href: '#' },
+      { label: 'FAQ', href: '/faq' },
     ],
   },
   {
