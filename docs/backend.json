@@ -41,6 +41,33 @@
         "firstName",
         "lastName"
       ]
+    },
+    "Image": {
+      "title": "Image",
+      "type": "object",
+      "description": "Represents an image with its URL and metadata.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the image."
+        },
+        "imageUrl": {
+          "type": "string",
+          "description": "The URL of the image."
+        },
+        "description": {
+          "type": "string",
+          "description": "A description of the image for accessibility."
+        },
+        "imageHint": {
+          "type": "string",
+          "description": "AI hint for the image."
+        }
+      },
+      "required": [
+        "id",
+        "imageUrl"
+      ]
     }
   },
   "auth": {
@@ -69,8 +96,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "/Image/{imageId}",
+        "definition": {
+          "entityName": "Image",
+          "schema": {
+            "$ref": "#/backend/entities/Image"
+          },
+          "description": "Stores image URLs for the application, like the hero banner.",
+          "params": [
+            {
+              "name": "imageId",
+              "description": "The unique identifier of the image."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `id` field within the UserAccount document is redundant given the path structure and could be omitted for simplicity. The orderIds array stores references to order documents. Orders could be stored as a subcollection of UserAccount (`/users/{userId}/orders/{orderId}`), or in a top-level `orders` collection, depending on whether orders need to be accessed independently of user accounts. If stored in a top-level `orders` collection, the UserAccount data would need to be denormalized with the `userId` to allow secure listing of orders by user."
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner."
   }
 }

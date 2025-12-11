@@ -1,10 +1,14 @@
-
+'use client';
+import { useMemo } from 'react';
+import { useFirestore, useDoc, useMemoFirebase } from '@/firebase';
+import { doc } from 'firebase/firestore';
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const serviceCards = [
   {
@@ -30,24 +34,44 @@ const serviceCards = [
   },
 ];
 
+function HeroBanner() {
+  const firestore = useFirestore();
+  const heroBannerRef = useMemoFirebase(
+    () => doc(firestore, 'Image', 'Hero Banner'),
+    [firestore]
+  );
+  const { data: heroBanner, isLoading } = useDoc(heroBannerRef);
+
+  if (isLoading) {
+    return <Skeleton className="w-full aspect-video" />;
+  }
+
+  if (heroBanner?.imageUrl) {
+    return (
+      <Image
+        src={heroBanner.imageUrl}
+        alt={heroBanner.description || 'Hero banner'}
+        width={1920}
+        height={1080}
+        className="w-full h-auto object-cover"
+        priority
+        data-ai-hint={heroBanner.imageHint}
+      />
+    );
+  }
+
+  return null; // or a fallback
+}
+
+
 export default function Home() {
-  const heroBanner = PlaceHolderImages.find((img) => img.id === 'hero-banner');
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
-      {heroBanner && (
-        <Image
-          src={heroBanner.imageUrl}
-          alt={heroBanner.description}
-          width={1920}
-          height={1080}
-          className="w-full h-auto object-cover"
-          priority
-          data-ai-hint={heroBanner.imageHint}
-        />
-      )}
+      
+      <HeroBanner />
 
       <section
         id="why-choose-us"

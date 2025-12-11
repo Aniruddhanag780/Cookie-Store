@@ -95,5 +95,15 @@ service cloud.firestore {
       allow update: if isExistingOwner(userId) && hasValidUpdateData();
       allow delete: if isExistingOwner(userId);
     }
+    
+    /**
+     * @description Publicly readable collection for images.
+     * @path /Image/{imageId}
+     */
+    match /Image/{imageId} {
+      allow get: if true;
+      allow list: if true;
+      allow create, update, delete: if false; // Only allow reads
+    }
   }
 }
