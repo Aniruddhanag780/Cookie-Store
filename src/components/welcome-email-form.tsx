@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useActionState, useEffect, useRef } from 'react';
+import { useState, useRef, useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -24,31 +24,34 @@ function SubmitButton() {
 }
 
 export default function WelcomeEmailForm() {
-  const [state, formAction] = useActionState(sendWelcomeEmail, initialState);
   const { toast } = useToast();
   const formRef = useRef<HTMLFormElement>(null);
+  const [isPending, startTransition] = useTransition();
 
-  useEffect(() => {
-    if (state.message) {
-      toast({
-        title: 'Subscribed!',
-        description: state.message,
-      });
-      formRef.current?.reset();
-    }
-    if (state.error) {
-      toast({
-        title: 'Error',
-        description: state.error,
-        variant: 'destructive',
-      });
-    }
-  }, [state, toast]);
+  const handleFormAction = (formData: FormData) => {
+    startTransition(async () => {
+      const result = await sendWelcomeEmail(initialState, formData);
+      if (result.message) {
+        toast({
+          title: 'Subscribed!',
+          description: result.message,
+        });
+        formRef.current?.reset();
+      }
+      if (result.error) {
+        toast({
+          title: 'Error',
+          description: result.error,
+          variant: 'destructive',
+        });
+      }
+    });
+  };
 
   return (
     <form
       ref={formRef}
-      action={formAction}
+      action={handleFormAction}
       className="flex flex-col items-center space-y-4"
     >
       <div className="relative w-full">
