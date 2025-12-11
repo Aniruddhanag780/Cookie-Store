@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -22,7 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
-import { Mail, User, MessageSquare } from 'lucide-react';
+import { Mail, User, MessageSquare, Phone, Building, LinkIcon } from 'lucide-react';
 import { useFirestore } from '@/firebase';
 import { addDoc, collection } from 'firebase/firestore';
 
@@ -48,6 +49,14 @@ export default function ContactPage() {
   });
 
   const onSubmit = async (data: ContactFormValues) => {
+    if (!firestore) {
+      toast({
+        title: 'Error',
+        description: 'Database not available. Please try again later.',
+        variant: 'destructive',
+      });
+      return;
+    }
     try {
       const contactsCollection = collection(firestore, 'contacts');
       await addDoc(contactsCollection, {
@@ -70,13 +79,47 @@ export default function ContactPage() {
     }
   };
 
+  const InfoRow = ({ label, children }: { label: string; children: React.ReactNode }) => (
+    <div className="flex flex-col sm:flex-row sm:items-start">
+      <p className="w-full sm:w-1/3 font-semibold text-foreground">{label}:</p>
+      <div className="w-full sm:w-2/3 text-muted-foreground">{children}</div>
+    </div>
+  );
+
+
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
-      <div className="max-w-3xl mx-auto">
+      <div className="max-w-3xl mx-auto space-y-8">
+        <Card className="shadow-lg">
+          <CardHeader>
+            <CardTitle className="text-3xl md:text-4xl font-bold font-headline text-center">
+              Contact Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <InfoRow label="Trade Name">Vishla Foods Private Limited</InfoRow>
+            <InfoRow label="Brand Name">Crunch Bites</InfoRow>
+            <InfoRow label="Contact Number">
+              <a href="tel:04035691596" className="hover:text-primary">040 3569 1596</a>
+            </InfoRow>
+            <InfoRow label="WhatsApp">
+              <a href="https://wa.me/9104035691596" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Click Here to Message Us</a>
+            </InfoRow>
+            <InfoRow label="Email">
+               <a href="mailto:order@crunchbites.in" className="text-primary hover:underline">order@crunchbites.in</a>
+            </InfoRow>
+            <InfoRow label="Physical Address">
+              Vishla Foods Private Limited, 11-10-89, Shop No. 3, Sunline Residency Building, Road No. 3, SBI Colony, Kothapet, 500035 Hyderabad TS, India
+            </InfoRow>
+            <InfoRow label="GSTIN">36AAKCV3043R1ZO</InfoRow>
+            <InfoRow label="FSSAI License">13624034000762</InfoRow>
+          </CardContent>
+        </Card>
+
         <Card className="shadow-lg">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl md:text-4xl font-bold font-headline">
-              Contact Us
+              Send us a Message
             </CardTitle>
             <CardDescription>
               Have a question or feedback? Drop us a line below!
