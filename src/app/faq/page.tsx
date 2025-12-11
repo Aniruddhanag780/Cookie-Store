@@ -48,6 +48,11 @@ const faqItems = [
     answer:
       'Yes! Browse items in the Ultimate Crunch Boxes category. Below the description, you\'ll find the "Subscribe & Save" option, allowing you to get your monthly box delivered straight to your doorstep, available PAN India!',
   },
+  {
+    question: 'How do I store Crunch Bites to ensure they stay fresh?',
+    answer:
+      'To maintain freshness, store your Crunch Bites in a cool, dry place away from direct sunlight. Once opened, it\'s best to store them in an airtight container and consume them within a week.',
+  },
 ];
 
 export default function FaqPage() {
