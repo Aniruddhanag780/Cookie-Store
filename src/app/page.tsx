@@ -36,17 +36,15 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
-      <section className="w-full">
-        <Image
-          src="https://i.ibb.co/SVSGq6h/image.png"
-          alt="Sweet Cookies Banner"
-          width={1920}
-          height={1080}
-          className="object-cover w-full h-auto"
-          priority
-          data-ai-hint="cookies banner"
-        />
-      </section>
+      <Image
+        src="https://i.ibb.co/SVSGq6h/image.png"
+        alt="Sweet Cookies Banner"
+        width={1920}
+        height={1080}
+        className="w-full h-auto object-cover"
+        priority
+        data-ai-hint="cookies banner"
+      />
 
       <section
         id="why-choose-us"
