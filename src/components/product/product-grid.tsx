@@ -17,13 +17,27 @@ export default function ProductGrid({ products }: ProductGridProps) {
   const [selectedCategory, setSelectedCategory] = useState('All');
 
   const filteredProducts = useMemo(() => {
+    const lowercasedSearchTerm = searchTerm.toLowerCase().trim();
+    if (!lowercasedSearchTerm && selectedCategory === 'All') {
+      return products;
+    }
+
+    const searchWords = lowercasedSearchTerm.split(/\s+/).filter(Boolean);
+
     return products.filter((product) => {
       const matchesCategory =
         selectedCategory === 'All' || product.category === selectedCategory;
-      const matchesSearch =
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase());
-      return matchesCategory && matchesSearch;
+      if (!matchesCategory) {
+        return false;
+      }
+
+      if (searchWords.length === 0) {
+        return true;
+      }
+      
+      const productText = `${product.name.toLowerCase()} ${product.description.toLowerCase()}`;
+
+      return searchWords.every(word => productText.includes(word));
     });
   }, [products, searchTerm, selectedCategory]);
 
