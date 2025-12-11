@@ -103,7 +103,7 @@ export default function ContactPage() {
               <a href="tel:+916296731835" className="hover:text-primary">+91 6296731835</a>
             </InfoRow>
             <InfoRow label="WhatsApp">
-              <a href="https://wa.me/9104035691596" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Click Here to Message Us</a>
+              <a href="https://wa.me/916296731835" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Click Here to Message Us</a>
             </InfoRow>
             <InfoRow label="Email">
                <a href="mailto:order@crunchbites.in" className="text-primary hover:underline">order@crunchbites.in</a>
