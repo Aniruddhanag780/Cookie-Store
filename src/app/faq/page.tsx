@@ -33,6 +33,21 @@ const faqItems = [
     answer:
       'Currently, we offer shipping across India. We are working on expanding our reach and plan to offer international shipping soon.',
   },
+  {
+    question: 'How can I contact you if I have more questions?',
+    answer:
+      'Feel free to click on the "Chat" button at the bottom right of our website for live assistance. We\'re always happy to help!',
+  },
+  {
+    question: 'Are there any discounts for bulk orders?',
+    answer:
+      'Yes, we offer discounts for bulk orders. Please contact our customer service team for more information on bulk pricing and discounts.',
+  },
+  {
+    question: 'Do you offer any subscription services?',
+    answer:
+      'Yes! Browse items in the Ultimate Crunch Boxes category. Below the description, you\'ll find the "Subscribe & Save" option, allowing you to get your monthly box delivered straight to your doorstep, available PAN India!',
+  },
 ];
 
 export default function FaqPage() {
