@@ -79,7 +79,7 @@ export default function Header() {
   const navLinks = (
     <>
       <NavLink href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
-      <NavLink href="/#why-choose-us" onClick={() => setIsMobileMenuOpen(false)}>Menu</NavLink>
+      <NavLink href="/menu" onClick={() => setIsMobileMenuOpen(false)}>Menu</NavLink>
       <NavLink href="/#visit-us-today" onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
       <NavLink href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</NavLink>
     </>
