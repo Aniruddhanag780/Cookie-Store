@@ -5,6 +5,13 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
 
 const serviceCards = [
   {
@@ -31,27 +38,39 @@ const serviceCards = [
 ];
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find((img) => img.id === 'hero-sweet-cookies');
+  const heroImages = PlaceHolderImages.filter(img => img.id.startsWith('hero-'));
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
       <section className="relative w-full">
-        {heroImage && (
-            <Link href="#">
-                <div className="relative w-full aspect-[1920/887]">
-                    <Image
-                        src={heroImage.imageUrl}
-                        alt={heroImage.description}
-                        fill
-                        className="object-cover"
-                        priority
-                        data-ai-hint={heroImage.imageHint}
-                    />
+        <Carousel
+          opts={{
+            align: 'start',
+            loop: true,
+          }}
+          className="w-full"
+        >
+          <CarouselContent>
+            {heroImages.map((heroImage) => (
+              <CarouselItem key={heroImage.id}>
+                <div className="relative w-full aspect-video">
+                  <Image
+                    src={heroImage.imageUrl}
+                    alt={heroImage.description}
+                    fill
+                    className="object-cover"
+                    priority
+                    data-ai-hint={heroImage.imageHint}
+                  />
                 </div>
-            </Link>
-        )}
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious className="absolute left-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
+          <CarouselNext className="absolute right-4 top-1/2 -translate-y-1/2 z-10 hidden md:flex" />
+        </Carousel>
       </section>
 
       <section
