@@ -112,7 +112,7 @@ export default function ContactPage() {
               </a>
             </InfoRow>
             <InfoRow label="Email">
-               <a href="mailto:inbox.lyra@gmail.com" className="text-primary hover:underline">inbox.lyra@gmail.com</a>
+               <a href="https://mail.google.com/mail/?view=cm&fs=1&to=inbox.lyra@gmail.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline flex items-center">Click Here to Send Us Email <Mail className="h-5 w-5 ml-2" /></a>
             </InfoRow>
             <InfoRow label="Physical Address">
               Vishla Foods Private Limited, 11-10-89, Shop No. 3, Sunline Residency Building, Road No. 3, SBI Colony, Kothapet, 500035 Hyderabad TS, India
