@@ -31,24 +31,21 @@ const serviceCards = [
 ];
 
 export default function Home() {
-  const heroImage = PlaceHolderImages.find(img => img.id === 'hero-1');
   const visitImage1 = PlaceHolderImages.find((img) => img.id === 'visit-1');
   const visitImage2 = PlaceHolderImages.find((img) => img.id === 'visit-2');
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
       <section className="w-full flex justify-center">
-        {heroImage && (
             <Image
-              src={heroImage.imageUrl}
-              alt={heroImage.description}
-              width={626}
-              height={417}
-              className="object-cover"
+              src="https://i.ibb.co/SVSGq6h/image.png"
+              alt="Sweet Cookies Banner"
+              width={1920}
+              height={1080}
+              className="object-cover w-full h-auto"
               priority
-              data-ai-hint={heroImage.imageHint}
+              data-ai-hint="cookies banner"
             />
-        )}
       </section>
 
       <section
