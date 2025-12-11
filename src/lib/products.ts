@@ -146,6 +146,17 @@ export const products: Product[] = [
     category: 'Apparel',
     ...getProductData('12'),
   },
+  {
+    id: '13',
+    name: 'Lemon Meringue Tarts',
+    slug: 'lemon-meringue-tarts',
+    description: 'Zesty lemon curd in a buttery shell, topped with toasted meringue.',
+    longDescription:
+      'A perfect balance of sweet and tart. Our lemon meringue tarts feature a crisp, buttery pastry shell filled with a zesty and vibrant lemon curd, all crowned with a fluffy, toasted Italian meringue. A classic dessert, perfected.',
+    price: 8.50,
+    category: 'Pastries',
+    ...getProductData('13'),
+  },
 ];
 
 export const categories = [
