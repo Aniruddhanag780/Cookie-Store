@@ -37,12 +37,13 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-16 md:gap-24">
-      <section className="relative w-full aspect-video">
+      <section className="w-full flex justify-center">
         {heroImage && (
             <Image
               src={heroImage.imageUrl}
               alt={heroImage.description}
-              fill
+              width={626}
+              height={417}
               className="object-cover"
               priority
               data-ai-hint={heroImage.imageHint}
