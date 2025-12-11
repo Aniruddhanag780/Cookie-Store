@@ -19,6 +19,12 @@
       "imageHint": "artisan bread"
     },
     {
+      "id": "hero-banner",
+      "description": "A beautiful banner of sweet cookies.",
+      "imageUrl": "https://i.ibb.co/SVSGq6h/image.png",
+      "imageHint": "cookies banner"
+    },
+    {
       "id": "artisan-breads",
       "description": "A sliced loaf of artisan sourdough bread",
       "imageUrl": "https://images.unsplash.com/photo-1670843837159-ddae2ec115d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxhcnRpc2FuJTIwYnJlYWR8ZW58MHx8fHwxNzY1MjU0Mzg1fDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -33,19 +39,19 @@
     {
       "id": "custom-cakes",
       "description": "A small custom cake with white frosting and a raspberry on top",
-      "imageUrl": "https://images.unsplash.com/photo-1693059871790-a27aae793139?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjdXN0b20lMjBjYWtlfGVufDB8fHx8fDE3NjUzMjQ4Nzh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1693059871790-a27aae793139?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjdXN0b20lMjBjYWtlfGVufDB8fHx8fDE3NjUzMjQ4Nzh8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "custom cake"
     },
     {
       "id": "visit-1",
       "description": "An assortment of donuts and pastries",
-      "imageUrl": "https://images.unsplash.com/photo-1750506446249-18bc94a1242d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFzdHJ5JTIwYXNzb3J0bWVudHxlbnwwfHx8fDE3NjUyNjE4NjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1750506446249-18bc94a1242d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFzdHJ5JTIwYXNzb3J0bWVudHxlbnwwfHx8fDE3NjUyNjE4NjV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "pastry assortment"
     },
     {
       "id": "visit-2",
       "description": "A small powdered tart on a plate",
-      "imageUrl": "https://images.unsplash.com/photo-1691052155048-b7993c82b837?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFzdHJ5JTIwdGFydHxlbnwwfHx8fDE3NjUzNTg4NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1691052155048-b7993c82b837?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cGFzdHJ5JTIwdGFydHxlbnwwfHx8fDE3NjUzNTg4NDV8MA&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "pastry tart"
     }
   ]
