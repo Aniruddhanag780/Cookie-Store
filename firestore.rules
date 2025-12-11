@@ -121,11 +121,11 @@ service cloud.firestore {
 
     /**
      * @description Collection for contact form submissions.
-     * @path /contacts/{contactId}
+     * @path /contactus/{contactId}
      * @allow (create) Anyone can submit a contact form message.
      * @deny (read, list, update, delete) Client-side reads and modifications are blocked for privacy.
      */
-    match /contacts/{contactId} {
+    match /contactus/{contactId} {
       allow create: if isValidContactMessage();
       allow read, update, delete: if false;
     }

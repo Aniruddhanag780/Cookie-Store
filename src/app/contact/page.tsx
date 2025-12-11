@@ -58,7 +58,7 @@ export default function ContactPage() {
       return;
     }
     try {
-      const contactsCollection = collection(firestore, 'contacts');
+      const contactsCollection = collection(firestore, 'contactus');
       await addDoc(contactsCollection, {
         ...data,
         submittedAt: serverTimestamp(),

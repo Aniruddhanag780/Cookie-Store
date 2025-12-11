@@ -145,7 +145,7 @@
         }
       },
       {
-        "path": "/contacts/{contactId}",
+        "path": "/contactus/{contactId}",
         "definition": {
           "entityName": "ContactMessage",
           "schema": {
@@ -161,6 +161,6 @@
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner. The `contacts` collection is publicly writable so anyone can submit a message, but client-side reads are disabled to protect submitter privacy."
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner. The `contactus` collection is publicly writable so anyone can submit a message, but client-side reads are disabled to protect submitter privacy."
   }
 }
