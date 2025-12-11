@@ -100,7 +100,7 @@ export default function ContactPage() {
             <InfoRow label="Trade Name">Vishla Foods Private Limited</InfoRow>
             <InfoRow label="Brand Name">Crunch Bites</InfoRow>
             <InfoRow label="Contact Number">
-              <a href="tel:04035691596" className="hover:text-primary">040 3569 1596</a>
+              <a href="tel:+916296731835" className="hover:text-primary">+91 6296731835</a>
             </InfoRow>
             <InfoRow label="WhatsApp">
               <a href="https://wa.me/9104035691596" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">Click Here to Message Us</a>
