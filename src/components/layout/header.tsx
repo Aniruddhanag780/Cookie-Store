@@ -81,7 +81,7 @@ export default function Header() {
       <NavLink href="/" onClick={() => setIsMobileMenuOpen(false)}>Home</NavLink>
       <NavLink href="/#why-choose-us" onClick={() => setIsMobileMenuOpen(false)}>Menu</NavLink>
       <NavLink href="/#visit-us-today" onClick={() => setIsMobileMenuOpen(false)}>About</NavLink>
-      <NavLink href="/contactus" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</NavLink>
+      <NavLink href="/contact" onClick={() => setIsMobileMenuOpen(false)}>Contact Us</NavLink>
     </>
   );
 
