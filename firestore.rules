@@ -1,3 +1,4 @@
+
 /**
  * Core Philosophy: This ruleset enforces a strict user-ownership model. All data
  * is organized under a user's unique ID, and access is restricted to the

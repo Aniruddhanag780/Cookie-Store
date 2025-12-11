@@ -25,7 +25,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { Mail, User, MessageSquare, Phone, Building, LinkIcon } from 'lucide-react';
 import { useFirestore } from '@/firebase';
-import { addDoc, collection } from 'firebase/firestore';
+import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Please enter your full name.'),
@@ -61,7 +61,7 @@ export default function ContactPage() {
       const contactsCollection = collection(firestore, 'contacts');
       await addDoc(contactsCollection, {
         ...data,
-        submittedAt: new Date(),
+        submittedAt: serverTimestamp(),
       });
 
       toast({
