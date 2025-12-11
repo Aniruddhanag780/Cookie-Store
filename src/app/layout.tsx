@@ -51,7 +51,7 @@ export default function RootLayout({
           </CartProvider>
         </FirebaseClientProvider>
 
-        <Script id="tawk-to" strategy="lazyOnload">
+        <Script id="tawk-to" strategy="afterInteractive">
           {`
             var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
             (function(){
