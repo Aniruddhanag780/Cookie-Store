@@ -77,6 +77,18 @@ service cloud.firestore {
       return request.resource.data.id == resource.data.id;
     }
 
+    /**
+     * Validates the schema for a contact message on creation.
+     * Ensures all required fields are present and have the correct types.
+     */
+    function isValidContactMessage() {
+      let data = request.resource.data;
+      return data.name is string && data.name.size() > 1 &&
+             data.email is string && data.email.matches('.+@.+\\..+') &&
+             data.message is string && data.message.size() > 9 &&
+             data.submittedAt == request.time;
+    }
+
     //-------------------------------------------------------------------------
     // Collection Rules: /users
     //-------------------------------------------------------------------------
@@ -104,6 +116,17 @@ service cloud.firestore {
       allow get: if true;
       allow list: if true;
       allow create, update, delete: if false; // Only allow reads
+    }
+
+    /**
+     * @description Collection for contact form submissions.
+     * @path /contacts/{contactId}
+     * @allow (create) Anyone can submit a contact form message.
+     * @deny (read, list, update, delete) Client-side reads and modifications are blocked for privacy.
+     */
+    match /contacts/{contactId} {
+      allow create: if isValidContactMessage();
+      allow read, update, delete: if false;
     }
   }
 }

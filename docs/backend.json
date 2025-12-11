@@ -68,6 +68,37 @@
         "id",
         "imageUrl"
       ]
+    },
+    "ContactMessage": {
+      "title": "ContactMessage",
+      "type": "object",
+      "description": "Represents a message submitted through the contact form.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the person submitting the message."
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "The email address of the person."
+        },
+        "message": {
+          "type": "string",
+          "description": "The content of the message."
+        },
+        "submittedAt": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The timestamp when the message was submitted."
+        }
+      },
+      "required": [
+        "name",
+        "email",
+        "message",
+        "submittedAt"
+      ]
     }
   },
   "auth": {
@@ -112,8 +143,24 @@
             }
           ]
         }
+      },
+      {
+        "path": "/contacts/{contactId}",
+        "definition": {
+          "entityName": "ContactMessage",
+          "schema": {
+            "$ref": "#/backend/entities/ContactMessage"
+          },
+          "description": "Stores messages submitted through the contact form. Publicly writable but not readable by clients.",
+          "params": [
+            {
+              "name": "contactId",
+              "description": "The unique identifier for the contact message."
+            }
+          ]
+        }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner."
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner. The `contacts` collection is publicly writable so anyone can submit a message, but client-side reads are disabled to protect submitter privacy."
   }
 }
