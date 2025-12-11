@@ -9,13 +9,13 @@
     {
       "id": "hero-2",
       "description": "A delicious looking croissant on a wooden board.",
-      "imageUrl": "https://images.unsplash.com/photo-1724879703317-a2686a97f767?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjcm9pc3NhbnQlMjBwYXN0cnl8ZW58MHx8fHwxNzY1Mzc3MjA3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://i.ibb.co/ypsxG03/hero-2.jpg",
       "imageHint": "croissant pastry"
     },
     {
       "id": "hero-3",
       "description": "A variety of freshly baked breads on a shelf.",
-      "imageUrl": "https://images.unsplash.com/photo-1558296011-5ce1f47d0997?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8YXJ0aXNhbiUyMGJyZWFkfGVufDB8fHx8MTc2NTM3NjEyN3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://i.ibb.co/9h1v3H3/hero-3.jpg",
       "imageHint": "artisan bread"
     },
     {
