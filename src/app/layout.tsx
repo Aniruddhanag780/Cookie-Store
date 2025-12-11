@@ -8,9 +8,7 @@ import { CartProvider } from '@/contexts/cart-context';
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
 import CartSheet from '@/components/cart/cart-sheet';
-import { FirebaseClientProvider, useFirestore } from '@/firebase';
-import { seedInitialData } from '@/lib/bootstrap-db';
-import { useEffect, useState } from 'react';
+import { FirebaseClientProvider } from '@/firebase';
 
 const metadata: Metadata = {
   title: 'AnimEcom',
@@ -20,39 +18,11 @@ const metadata: Metadata = {
   },
 };
 
-function DatabaseSeeder({
-  setSeedingComplete,
-}: {
-  setSeedingComplete: (complete: boolean) => void;
-}) {
-  const firestore = useFirestore();
-
-  useEffect(() => {
-    async function seedData() {
-      if (firestore) {
-        await seedInitialData(firestore);
-        setSeedingComplete(true);
-      }
-    }
-    seedData();
-  }, [firestore, setSeedingComplete]);
-
-  return (
-    <div className="fixed inset-0 bg-background z-50 flex items-center justify-center">
-      <div className="text-center">
-        <p className="text-lg font-semibold">Preparing your experience...</p>
-        <p className="text-muted-foreground">This will only take a moment.</p>
-      </div>
-    </div>
-  );
-}
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [isSeedingComplete, setSeedingComplete] = useState(false);
   return (
     <html lang="en" className="scroll-smooth">
       <head>
@@ -70,10 +40,7 @@ export default function RootLayout({
       <body className="font-body antialiased">
         <FirebaseClientProvider>
           <CartProvider>
-            {!isSeedingComplete && (
-              <DatabaseSeeder setSeedingComplete={setSeedingComplete} />
-            )}
-            <div className={`flex flex-col min-h-dvh ${isSeedingComplete ? 'opacity-100' : 'opacity-0'}`}>
+            <div className="flex flex-col min-h-dvh">
               <Header />
               <main className="flex-grow">{children}</main>
               <Footer />
