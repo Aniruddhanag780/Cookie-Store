@@ -18,6 +18,21 @@ const faqItems = [
     answer:
       'Most of our products come in 200-gram packs, except for Cornflakes, which is only available in 150-gram packs.',
   },
+  {
+    question: 'How fresh are the snacks I receive?',
+    answer:
+      'Our snacks are made fresh to order in small batches, ensuring you receive the highest quality and freshest product possible.',
+  },
+  {
+    question: 'What is the shelf life of Crunch Bites products?',
+    answer:
+      "Since we don't use preservatives, our products have a shelf life of 30 days. This ensures you enjoy the freshest, most natural snacks possible.",
+  },
+  {
+    question: 'Do you offer international shipping?',
+    answer:
+      'Currently, we offer shipping across India. We are working on expanding our reach and plan to offer international shipping soon.',
+  },
 ];
 
 export default function FaqPage() {
