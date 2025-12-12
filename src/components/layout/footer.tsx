@@ -92,7 +92,7 @@ export default function Footer() {
           </div>
           <hr className="my-8 border-border" />
            <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-sm">
-             <p className="text-muted-foreground">Bakery © 2024, All Rights Reserved</p>
+             <p className="text-muted-foreground">Bakery © 2026, All Rights Reserved</p>
              <PaymentIcons />
           </div>
         </div>
