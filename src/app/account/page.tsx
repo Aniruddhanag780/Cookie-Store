@@ -66,7 +66,9 @@ export default function AccountPage() {
     }
 
     if (!orders || orders.length === 0) {
-      return <p>You have no past orders.</p>;
+      return <div className="text-center py-8">
+        <p className="text-muted-foreground">You have no past orders.</p>
+      </div>;
     }
 
     return (
@@ -121,7 +123,9 @@ export default function AccountPage() {
     }
     
     if (!user) {
-       return <p>Please log in to view your profile.</p>
+       return <div className="text-center py-8">
+          <p className="text-muted-foreground">Please log in to view your profile.</p>
+        </div>
     }
 
     return (
@@ -170,7 +174,7 @@ export default function AccountPage() {
             <CardHeader>
               <CardTitle>Profile</CardTitle>
               <CardDescription>
-                Manage your personal information.
+                View and manage your personal information.
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
