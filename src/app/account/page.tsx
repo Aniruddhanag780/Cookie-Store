@@ -141,6 +141,7 @@ export default function AccountPage() {
         const lastName = lastNameParts.join(' ');
         
         const profileData: Partial<UserAccount> = {
+            id: user.uid,
             firstName: firstName,
             lastName: lastName,
             address: data.address,
