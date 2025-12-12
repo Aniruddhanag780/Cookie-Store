@@ -35,7 +35,8 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
-import { updateProfile } from 'firebase/auth';
+import { updateProfile, verifyBeforeUpdateEmail, signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 interface Order {
   id: string;
@@ -59,6 +60,7 @@ export default function AccountPage() {
   const auth = useAuth();
   const { toast } = useToast();
   const [userProfile, setUserProfile] = useState<UserAccount | null>(null);
+  const router = useRouter();
   
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileSchema),
@@ -112,13 +114,27 @@ export default function AccountPage() {
   }, [orders]);
 
   const onProfileSubmit = async (data: ProfileFormValues) => {
-    if (!user || !firestore) return;
+    if (!user || !firestore || !auth) return;
 
     try {
-        // Update Firebase Auth profile
-        await updateProfile(user, {
-            displayName: data.fullName,
-        });
+        // Handle email change
+        if (data.email !== user.email) {
+            await verifyBeforeUpdateEmail(user, data.email);
+            toast({
+                title: "Verification Email Sent",
+                description: "A verification link has been sent to your new email address. Please verify to complete the change. You will be logged out.",
+            });
+            await signOut(auth);
+            router.push('/login');
+            return;
+        }
+
+        // Update Firebase Auth profile displayName
+        if (data.fullName !== user.displayName) {
+            await updateProfile(user, {
+                displayName: data.fullName,
+            });
+        }
 
         // Update Firestore profile
         const userDocRef = doc(firestore, 'users', user.uid);
@@ -129,7 +145,7 @@ export default function AccountPage() {
             firstName: firstName,
             lastName: lastName,
             address: data.address,
-            email: user.email! // email is non-null for a logged-in user
+            email: data.email, // email might be the same, but we include it for consistency
         };
         await setDoc(userDocRef, profileData, { merge: true });
 
@@ -252,7 +268,7 @@ export default function AccountPage() {
               <FormItem>
                 <FormLabel>Email Address</FormLabel>
                 <FormControl>
-                  <Input {...field} disabled />
+                  <Input {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
