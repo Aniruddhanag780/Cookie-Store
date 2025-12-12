@@ -53,10 +53,7 @@ const formSchema = z
     },
     {
       message: 'Billing information is required when not same as shipping.',
-      // We need to specify a path, even if the error is general for the object.
-      // This is a limitation of Zod, but it still works for showing a general error.
-      // Or we can attach it to each field. Let's try to be more specific.
-      path: ['billingFullName'], // You can pick one field to attach the general message.
+      path: ['billingFullName'], 
     }
   );
 
@@ -90,10 +87,7 @@ export default function CheckoutPage() {
   const sameAsShipping = form.watch('sameAsShipping');
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // Instead of placing the order here, we navigate to the payment page.
-    // The order details can be passed via state management or query params if needed.
-    // For now, we'll just navigate.
-    console.log('Shipping/Billing info:', values);
+    console.log('Shipping & Billing details:', values);
     router.push('/payment');
   }
 
