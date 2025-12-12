@@ -92,14 +92,47 @@ export default function PaymentPage() {
       return;
     }
 
+    const shippingDetailsString = sessionStorage.getItem('shippingDetails');
+    if (!shippingDetailsString) {
+        toast({
+            title: 'Error',
+            description: 'Shipping details not found. Please go back to checkout.',
+            variant: 'destructive',
+        });
+        router.push('/checkout');
+        return;
+    }
+    const shippingDetails = JSON.parse(shippingDetailsString);
+
     try {
       // 1. Create a new order document in Firestore
       const ordersCollection = collection(firestore, 'orders');
       await addDoc(ordersCollection, {
         userId: user.uid,
+        userEmail: user.email,
         date: serverTimestamp(),
         status: 'Processing',
         total: totalWithFees,
+        shippingAddress: {
+            fullName: shippingDetails.fullName,
+            address: shippingDetails.address,
+            city: shippingDetails.city,
+            zipCode: shippingDetails.zipCode,
+            country: shippingDetails.country,
+        },
+        billingAddress: shippingDetails.sameAsShipping ? {
+            fullName: shippingDetails.fullName,
+            address: shippingDetails.address,
+            city: shippingDetails.city,
+            zipCode: shippingDetails.zipCode,
+            country: shippingDetails.country,
+        } : {
+            fullName: shippingDetails.billingFullName,
+            address: shippingDetails.billingAddress,
+            city: shippingDetails.billingCity,
+            zipCode: shippingDetails.billingZipCode,
+            country: shippingDetails.billingCountry,
+        },
         items: cart.map(item => ({
             id: item.id,
             name: item.name,
@@ -114,8 +147,9 @@ export default function PaymentPage() {
         })),
       });
 
-      // 2. Clear the user's cart
+      // 2. Clear the user's cart and shipping details
       clearCart();
+      sessionStorage.removeItem('shippingDetails');
 
       // 3. Redirect to the order confirmation page
       router.push('/order-confirmed');
@@ -132,6 +166,8 @@ export default function PaymentPage() {
   if (cart.length === 0) {
     // Redirect if cart is empty, maybe after a delay
     if (typeof window !== 'undefined') {
+        // Also clear shipping details if cart is empty
+        sessionStorage.removeItem('shippingDetails');
         router.push('/');
     }
     return (

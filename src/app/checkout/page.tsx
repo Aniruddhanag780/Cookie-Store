@@ -87,7 +87,8 @@ export default function CheckoutPage() {
   const sameAsShipping = form.watch('sameAsShipping');
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('Shipping & Billing details:', values);
+    // Store shipping details in session storage to pass to payment page
+    sessionStorage.setItem('shippingDetails', JSON.stringify(values));
     router.push('/payment');
   }
 
