@@ -33,6 +33,12 @@
           "items": {
             "type": "string"
           }
+        },
+        "cart": {
+          "type": "array",
+          "items": {
+            "$ref": "#/backend/entities/CartItem"
+          }
         }
       },
       "required": [
@@ -154,6 +160,16 @@
         }
       },
       "required": ["id", "userId", "date", "status", "total", "items"]
+    },
+    "CartItem": {
+      "title": "CartItem",
+      "type": "object",
+      "description": "Represents an item in the user's shopping cart.",
+      "properties": {
+        "id": { "type": "string" },
+        "quantity": { "type": "number" }
+      },
+      "required": ["id", "quantity"]
     }
   },
   "auth": {
@@ -176,6 +192,18 @@
           "params": [
             { "name": "userId", "description": "The unique identifier of the user, matching the Firebase Auth UID." }
           ]
+        }
+      },
+      {
+        "path": "/users/{userId}/cart/{productId}",
+        "definition": {
+            "entityName": "CartItem",
+            "schema": { "$ref": "#/backend/entities/CartItem" },
+            "description": "Stores items in a user's shopping cart. Only the user can read/write their own cart.",
+            "params": [
+                { "name": "userId", "description": "The UID of the user." },
+                { "name": "productId", "description": "The ID of the product in the cart." }
+            ]
         }
       },
       {

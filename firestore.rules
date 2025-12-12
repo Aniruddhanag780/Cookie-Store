@@ -116,6 +116,14 @@ service cloud.firestore {
       allow create: if isOwner(userId) && hasValidCreateData(userId);
       allow update: if isExistingOwner(userId) && hasValidUpdateData();
       allow delete: if isExistingOwner(userId);
+
+      /**
+       * @description Controls access to a user's shopping cart.
+       * @path /users/{userId}/cart/{productId}
+       */
+      match /cart/{productId} {
+        allow read, write: if isOwner(userId);
+      }
     }
     
     /**

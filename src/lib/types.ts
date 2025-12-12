@@ -21,4 +21,5 @@ export interface UserAccount {
   lastName: string;
   address?: string;
   orderIds?: string[];
+  cart?: CartItem[];
 }
