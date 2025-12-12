@@ -38,19 +38,6 @@ const formSchema = z
     billingCity: z.string().optional(),
     billingZipCode: z.string().optional(),
     billingCountry: z.string().optional(),
-    // Payment
-    cardName: z.string().min(2, 'Name on card is required.'),
-    cardNumber: z
-      .string()
-      .min(16, 'Card number must be 16 digits.')
-      .max(16, 'Card number must be 16 digits.'),
-    cardExpiry: z
-      .string()
-      .regex(/^(0[1-9]|1[0-2])\/\d{2}$/, 'Expiry must be in MM/YY format.'),
-    cardCvc: z
-      .string()
-      .min(3, 'CVC must be 3 digits.')
-      .max(4, 'CVC can be up to 4 digits.'),
   })
   .refine(
     (data) => {
@@ -99,10 +86,6 @@ export default function CheckoutPage() {
       billingCity: '',
       billingZipCode: '',
       billingCountry: '',
-      cardName: '',
-      cardNumber: '',
-      cardExpiry: '',
-      cardCvc: '',
     },
   });
 
@@ -310,70 +293,6 @@ export default function CheckoutPage() {
               </CardContent>
             </Card>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>Payment Details</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <FormField
-                  control={form.control}
-                  name="cardName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name on Card</FormLabel>
-                      <FormControl>
-                        <Input placeholder="John M. Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="cardNumber"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Card Number</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="•••• •••• •••• ••••"
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <div className="grid grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="cardExpiry"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Expiry Date</FormLabel>
-                        <FormControl>
-                          <Input placeholder="MM/YY" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name="cardCvc"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>CVC</FormLabel>
-                        <FormControl>
-                          <Input placeholder="123" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </CardContent>
-            </Card>
           </div>
 
           <div className="md:col-span-1">
