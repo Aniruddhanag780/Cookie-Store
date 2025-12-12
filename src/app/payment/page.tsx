@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
@@ -12,7 +13,55 @@ import { useToast } from '@/hooks/use-toast';
 import { formatCurrency } from '@/lib/utils';
 import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
-import Image from 'next/image';
+import {
+  ArrowLeft,
+  ChevronDown,
+  ShieldCheck,
+  Landmark,
+  Wallet,
+  CreditCard,
+} from 'lucide-react';
+import { Checkbox } from '@/components/ui/checkbox';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from '@/components/ui/accordion';
+import { Input } from '@/components/ui/input';
+import Link from 'next/link';
+
+const UpiIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M6.886 8.169L4.97 9.808a.502.502 0 0 0 .343.866h1.228a.5.5 0 0 1 .494.42l.534 3.166a.5.5 0 0 1-.494.58h-1.29a.5.5 0 0 0-.494.42l-.534 3.166a.5.5 0 0 0 .494.58h1.29a.5.5 0 0 0 .494-.42l.534-3.166a.5.5 0 0 1 .494-.58h.42a.5.5 0 0 1 .493.58L9.04 22.58a.5.5 0 0 0 .494.42h1.637a.5.5 0 0 0 .494-.42L13.19 10.97a.5.5 0 0 0-.494-.58h-1.29a.5.5 0 0 0-.494.42l-.534 3.165a.5.5 0 0 1-.494.58h-.42a.5.5 0 0 1-.494-.58l.534-3.165a.5.5 0 0 0-.494-.58H8.468a.5.5 0 0 0-.494.42L7.44 16.82a.5.5 0 0 1-.494.58H5.718a.5.5 0 0 1-.494-.42l.534-3.165a.5.5 0 0 0-.494-.58H3.84a.5.5 0 0 1-.353-.858L9.03 6.13a.5.5 0 0 1 .708 0l2.09 2.09-.586.586a.5.5 0 0 1-.707 0L9.03 7.299l-5.116 5.115H5.14a.5.5 0 0 1 .494.42l-.534 3.165h.92l.494-2.617h.42l-.534 3.165h.348l-.534-3.165zM17.114 8.169l1.916 1.639a.502.502 0 0 1-.343.866h-1.228a.5.5 0 0 0-.494.42l-.534 3.166a.5.5 0 0 0 .494.58h1.29a.5.5 0 0 1 .494.42l.534 3.166a.5.5 0 0 1-.494.58h-1.29a.5.5 0 0 1-.494-.42l-.534-3.166a.5.5 0 0 0-.494-.58h-.42a.5.5 0 0 0-.493.58l.534 3.166a.5.5 0 0 1-.494.42h-1.637a.5.5 0 0 1-.494-.42L8.81 10.97a.5.5 0 0 1 .494-.58h1.29a.5.5 0 0 1 .494.42l.534 3.165a.5.5 0 0 0 .494.58h.42a.5.5 0 0 0 .494-.58l-.534-3.165a.5.5 0 0 1 .494-.58h1.228a.5.5 0 0 1 .494-.42l.534-3.165a.5.5 0 0 0 .494-.58h-1.228a.5.5 0 0 1-.494-.42L14.97 1.42A.5.5 0 0 1 15.464 1h1.637a.5.5 0 0 1 .494.42l.534 3.165a.5.5 0 0 0 .494.58h1.228a.5.5 0 0 0 .353-.858L14.97 2.13a.5.5 0 0 0-.708 0l-2.09 2.09.586.586a.5.5 0 0 0 .707 0l1.507-1.507.282 1.507z"
+      fill="#404040"
+    />
+  </svg>
+);
+
+const FlipkartIcon = () => (
+  <svg
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path d="M10 4H4v6h6V4z" fill="#2874F0"></path>
+    <path d="M10 10H4v6h6v-6z" fill="#2874F0"></path>
+    <path d="M10 16H4v6h6v-6z" fill="#2874F0"></path>
+    <path d="M16 4h-6v6h6V4z" fill="#F4B000"></path>
+    <path d="M22 4h-6v6h6V4z" fill="#F4B000"></path>
+    <path d="M16 10h-6v6h6v-6z" fill="#F4B000"></path>
+  </svg>
+);
 
 export default function PaymentPage() {
   const { cart, cartTotal, clearCart } = useCart();
@@ -31,12 +80,16 @@ export default function PaymentPage() {
   };
 
   if (cart.length === 0) {
+    // Redirect if cart is empty, maybe after a delay
+    if (typeof window !== 'undefined') {
+        router.push('/');
+    }
     return (
       <div className="container mx-auto px-4 py-8 md:py-12 text-center">
         <h1 className="text-2xl font-bold">Your cart is empty.</h1>
-        <p className="text-muted-foreground">Redirecting you to the home page...</p>
-        {/* Redirect if cart is empty, maybe after a delay */}
-        {typeof window !== 'undefined' && router.push('/')}
+        <p className="text-muted-foreground">
+          Redirecting you to the home page...
+        </p>
       </div>
     );
   }
@@ -45,91 +98,147 @@ export default function PaymentPage() {
   const discount = cartTotal > 0 ? cartTotal * 0.2 : 0;
   const totalWithFees = cartTotal - discount + deliveryFee;
 
+  const totalAmountFormatted = `₹${Math.round(totalWithFees)}`;
+
   return (
-    <div className="container mx-auto px-4 py-8 md:py-12">
-      <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8 text-center">
-        Complete Your Payment
-      </h1>
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-12">
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Payment Details</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {/* Placeholder for payment form (e.g., Stripe Elements) */}
-              <div className="h-48 flex items-center justify-center bg-gray-100 rounded-md">
-                <p className="text-muted-foreground">
-                  Payment form will be here.
+    <div className="bg-secondary/30 min-h-screen">
+      <div className="max-w-md mx-auto bg-background shadow-md">
+        <header className="p-4 flex items-center justify-between border-b">
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => router.back()}
+              aria-label="Go back"
+            >
+              <ArrowLeft />
+            </Button>
+            <div>
+              <p className="text-sm text-muted-foreground">Step 3 of 3</p>
+              <h1 className="text-2xl font-bold">Payments</h1>
+            </div>
+          </div>
+          <div className="flex items-center gap-1.5 text-xs font-semibold text-muted-foreground bg-secondary px-2 py-1 rounded-full">
+            <ShieldCheck className="h-4 w-4 text-green-600" />
+            100% Secure
+          </div>
+        </header>
+
+        <main className="p-4 space-y-4">
+          <Card className="bg-blue-50 border-blue-200">
+            <CardContent className="p-4 flex justify-between items-center">
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-blue-800">
+                  Total Amount
+                </span>
+                <ChevronDown className="h-5 w-5 text-blue-600" />
+              </div>
+              <span className="text-2xl font-bold text-blue-800">
+                {totalAmountFormatted}
+              </span>
+            </CardContent>
+          </Card>
+
+          <Card className="bg-green-50 border-green-200">
+            <CardContent className="p-4 flex justify-between items-center">
+              <div>
+                <h3 className="font-bold text-green-700">5% Cashback</h3>
+                <p className="text-sm text-green-600">
+                  Claim now with payment offers
                 </p>
               </div>
+              <div className="flex items-center -space-x-2">
+                <div className="h-8 w-8 rounded-full bg-white border-2 border-green-200 flex items-center justify-center">
+                  <Landmark className="h-4 w-4 text-green-600" />
+                </div>
+                <div className="h-8 w-8 rounded-full bg-white border-2 border-green-200 flex items-center justify-center">
+                  <Wallet className="h-4 w-4 text-green-600" />
+                </div>
+                <div className="h-8 w-8 rounded-full bg-white border-2 border-green-200 flex items-center justify-center font-bold text-green-600 text-xs">
+                  +3
+                </div>
+              </div>
             </CardContent>
           </Card>
-        </div>
-        <div>
-          <Card className="sticky top-24">
-            <CardHeader>
-              <CardTitle>Order Summary</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-3">
-                {cart.map((item) => (
-                  <div
-                    key={item.id}
-                    className="flex justify-between items-start"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="relative h-12 w-12 rounded-md overflow-hidden">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          fill
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-medium leading-tight">{item.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          Qty: {item.quantity}
-                        </p>
-                      </div>
-                    </div>
-                    <p className="font-medium text-right">
-                      {formatCurrency(item.price * item.quantity)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <Separator />
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <p>Subtotal</p>
-                  <p>{formatCurrency(cartTotal)}</p>
-                </div>
-                 <div className="flex justify-between">
-                  <span>Discount (-20%)</span>
-                  <span className="text-red-500">-{formatCurrency(discount)}</span>
-                </div>
-                 <div className="flex justify-between">
-                  <span>Delivery Fee</span>
-                  <span>{formatCurrency(deliveryFee)}</span>
+
+          <div className="space-y-4 pt-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <Checkbox id="gift-card" />
+                <div>
+                  <label htmlFor="gift-card" className="font-semibold">
+                    Use Gift Card
+                  </label>
+                  <p className="text-sm text-muted-foreground">
+                    Available Balance ₹34
+                  </p>
                 </div>
               </div>
-              <Separator />
-              <div className="flex justify-between font-bold text-lg">
-                <p>Total</p>
-                <p>{formatCurrency(totalWithFees)}</p>
-              </div>
-              <Button
-                size="lg"
-                className="w-full"
-                onClick={handlePayment}
-              >
-                Pay Now
+              <Button variant="link" className="text-primary">
+                Add Gift Card
               </Button>
-            </CardContent>
-          </Card>
-        </div>
+            </div>
+
+            <Card>
+              <CardHeader className="flex flex-row items-center gap-3 pb-4">
+                <FlipkartIcon />
+                <CardTitle className="text-lg flex-1">Flipkart UPI</CardTitle>
+                <span className="bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded">
+                  New
+                </span>
+              </CardHeader>
+              <CardContent>
+                <Button
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white"
+                  onClick={handlePayment}
+                >
+                  Add Bank and Pay
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Accordion
+              type="single"
+              collapsible
+              className="w-full bg-white rounded-lg border"
+            >
+              <AccordionItem value="upi" className="border-b-0">
+                <AccordionTrigger className="p-4 font-semibold hover:no-underline">
+                  <div className="flex items-center gap-3">
+                    <UpiIcon />
+                    UPI
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="p-4 pt-0">
+                  <div className="space-y-4">
+                    <p className="text-sm text-muted-foreground">
+                      Enter your UPI ID
+                    </p>
+                    <div className="flex gap-2">
+                      <Input placeholder="yourupi@bank" />
+                      <Button
+                        variant="outline"
+                        className="border-primary text-primary"
+                        onClick={handlePayment}
+                      >
+                        Verify
+                      </Button>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
+
+            <div className="text-center p-4">
+              <Link
+                href="/account"
+                className="text-sm text-muted-foreground hover:text-primary"
+              >
+                Or complete purchase using other payment options
+              </Link>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );
