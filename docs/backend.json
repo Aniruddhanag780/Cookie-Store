@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserAccount": {
@@ -151,15 +152,37 @@
       "properties": {
         "id": { "type": "string" },
         "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
         "date": { "type": "string", "format": "date-time" },
         "status": { "type": "string", "enum": ["Processing", "Shipped", "Delivered"] },
         "total": { "type": "number" },
+        "paymentMethod": { "type": "string" },
+        "shippingAddress": {
+          "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "zipCode": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        },
+        "billingAddress": {
+           "type": "object",
+          "properties": {
+            "fullName": { "type": "string" },
+            "address": { "type": "string" },
+            "city": { "type": "string" },
+            "zipCode": { "type": "string" },
+            "country": { "type": "string" }
+          }
+        },
         "items": {
           "type": "array",
           "items": { "$ref": "#/backend/entities/Product" }
         }
       },
-      "required": ["id", "userId", "date", "status", "total", "items"]
+      "required": ["id", "userId", "userEmail", "date", "status", "total", "items", "shippingAddress", "paymentMethod"]
     },
     "CartItem": {
       "title": "CartItem",
