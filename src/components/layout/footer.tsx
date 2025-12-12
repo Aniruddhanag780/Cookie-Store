@@ -27,7 +27,7 @@ const footerLinks = [
     title: 'FAQ',
     links: [
       { label: 'Account', href: '#' },
-      { label: 'Manage Deliveries', href: '#' },
+      { label: 'Manage Deliveries', href: '/faq' },
       { label: 'Orders', href: '#' },
       { label: 'Payments', href: '#' },
     ],
