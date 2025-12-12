@@ -348,7 +348,7 @@ export default function CheckoutPage() {
                   <p>{formatCurrency(cartTotal)}</p>
                 </div>
                 <Button type="submit" size="lg" className="w-full">
-                  Place Order
+                  Process To The Payment Page
                 </Button>
               </CardContent>
             </Card>
