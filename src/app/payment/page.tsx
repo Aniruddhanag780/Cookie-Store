@@ -34,6 +34,9 @@ import {
 } from '@/components/ui/accordion';
 import { Input } from '@/components/ui/input';
 import Link from 'next/link';
+import { useFirestore, useUser } from '@/firebase';
+import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
 
 const UpiIcon = () => (
   <svg
@@ -71,16 +74,59 @@ export default function PaymentPage() {
   const { cart, cartTotal, clearCart } = useCart();
   const { toast } = useToast();
   const router = useRouter();
+  const firestore = useFirestore();
+  const { user } = useUser();
 
-  const handlePayment = () => {
-    // Simulate payment processing
-    console.log('Processing payment...');
-    toast({
-      title: 'Payment Successful!',
-      description: 'Thank you for your purchase. Your order is on its way.',
-    });
-    clearCart();
-    router.push('/account');
+
+  const deliveryFee = cartTotal > 0 ? 15 : 0;
+  const discount = cartTotal > 100 ? cartTotal * 0.2 : 0; // e.g. 20% discount on orders over $100
+  const totalWithFees = cartTotal - discount + deliveryFee;
+
+  const handlePayment = async () => {
+    if (!firestore || !user) {
+      toast({
+        title: 'Error',
+        description: 'You must be logged in to place an order.',
+        variant: 'destructive',
+      });
+      return;
+    }
+
+    try {
+      // 1. Create a new order document in Firestore
+      const ordersCollection = collection(firestore, 'orders');
+      await addDoc(ordersCollection, {
+        userId: user.uid,
+        date: serverTimestamp(),
+        status: 'Processing',
+        total: totalWithFees,
+        items: cart.map(item => ({
+            id: item.id,
+            name: item.name,
+            price: item.price,
+            quantity: item.quantity,
+            image: item.image,
+            imageHint: item.imageHint,
+            slug: item.slug,
+            category: item.category,
+            description: item.description,
+            longDescription: item.longDescription,
+        })),
+      });
+
+      // 2. Clear the user's cart
+      clearCart();
+
+      // 3. Redirect to the order confirmation page
+      router.push('/order-confirmed');
+    } catch (error) {
+      console.error('Error placing order:', error);
+      toast({
+        title: 'Order Failed',
+        description: 'There was a problem placing your order. Please try again.',
+        variant: 'destructive',
+      });
+    }
   };
 
   if (cart.length === 0) {
@@ -97,10 +143,6 @@ export default function PaymentPage() {
       </div>
     );
   }
-
-  const deliveryFee = cartTotal > 0 ? 15 : 0;
-  const discount = cartTotal > 100 ? cartTotal * 0.2 : 0; // e.g. 20% discount on orders over $100
-  const totalWithFees = cartTotal - discount + deliveryFee;
 
   const totalAmountFormatted = formatCurrency(totalWithFees, 'INR').split('.')[0];
 
