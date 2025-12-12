@@ -149,5 +149,17 @@ service cloud.firestore {
         allow create: if isValidNewsletterSubscription();
         allow read, update, delete: if false;
     }
+    
+    /**
+     * @description Collection for customer orders.
+     * @path /orders/{orderId}
+     * @allow (read) Authenticated user can read their own orders.
+     * @deny (list) Listing all orders is disallowed.
+     */
+    match /orders/{orderId} {
+        allow get: if isSignedIn() && resource.data.userId == request.auth.uid;
+        allow list: if isSignedIn(); // Allow queries like where('userId', '==', request.auth.uid)
+        allow create, update, delete: if false; // For now, prevent client-side mutations
+    }
   }
 }

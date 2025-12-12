@@ -120,6 +120,40 @@
         "email",
         "subscribedAt"
       ]
+    },
+    "Product": {
+      "title": "Product",
+      "type": "object",
+      "description": "Represents a product in the store.",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "longDescription": { "type": "string" },
+        "price": { "type": "number" },
+        "category": { "type": "string" },
+        "image": { "type": "string" },
+        "imageHint": { "type": "string" }
+      },
+      "required": ["id", "name", "slug", "price", "image"]
+    },
+    "Order": {
+      "title": "Order",
+      "type": "object",
+      "description": "Represents a customer order.",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "date": { "type": "string", "format": "date-time" },
+        "status": { "type": "string", "enum": ["Processing", "Shipped", "Delivered"] },
+        "total": { "type": "number" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/backend/entities/Product" }
+        }
+      },
+      "required": ["id", "userId", "date", "status", "total", "items"]
     }
   },
   "auth": {
@@ -137,15 +171,10 @@
         "path": "/users/{userId}",
         "definition": {
           "entityName": "UserAccount",
-          "schema": {
-            "$ref": "#/backend/entities/UserAccount"
-          },
+          "schema": { "$ref": "#/backend/entities/UserAccount" },
           "description": "Stores user account information. Path-based ownership ensures only the authenticated user can access their own data.",
           "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user, matching the Firebase Auth UID."
-            }
+            { "name": "userId", "description": "The unique identifier of the user, matching the Firebase Auth UID." }
           ]
         }
       },
@@ -153,51 +182,39 @@
         "path": "/Image/{imageId}",
         "definition": {
           "entityName": "Image",
-          "schema": {
-            "$ref": "#/backend/entities/Image"
-          },
+          "schema": { "$ref": "#/backend/entities/Image" },
           "description": "Stores image URLs for the application, like the hero banner.",
-          "params": [
-            {
-              "name": "imageId",
-              "description": "The unique identifier of the image."
-            }
-          ]
+          "params": [{ "name": "imageId", "description": "The unique identifier of the image." }]
         }
       },
       {
         "path": "/contactus/{contactId}",
         "definition": {
           "entityName": "ContactMessage",
-          "schema": {
-            "$ref": "#/backend/entities/ContactMessage"
-          },
+          "schema": { "$ref": "#/backend/entities/ContactMessage" },
           "description": "Stores messages submitted through the contact form. Publicly writable but not readable by clients.",
-          "params": [
-            {
-              "name": "contactId",
-              "description": "The unique identifier for the contact message."
-            }
-          ]
+          "params": [{ "name": "contactId", "description": "The unique identifier for the contact message." }]
         }
       },
       {
         "path": "/newsletterSubscriptions/{subscriptionId}",
         "definition": {
           "entityName": "NewsletterSubscription",
-          "schema": {
-            "$ref": "#/backend/entities/NewsletterSubscription"
-          },
+          "schema": { "$ref": "#/backend/entities/NewsletterSubscription" },
           "description": "Stores email addresses for newsletter subscriptions. Publicly writable but not readable by clients.",
-          "params": [
-            {
-              "name": "subscriptionId",
-              "description": "The unique identifier for the subscription."
-            }
-          ]
+          "params": [{ "name": "subscriptionId", "description": "The unique identifier for the subscription." }]
+        }
+      },
+      {
+        "path": "/orders/{orderId}",
+        "definition": {
+          "entityName": "Order",
+          "schema": { "$ref": "#/backend/entities/Order" },
+          "description": "Stores customer orders. Users can only read their own orders.",
+          "params": [{ "name": "orderId", "description": "The unique identifier of the order." }]
         }
       }
     ],
-    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner. The `contactus` collection is publicly writable so anyone can submit a message, but client-side reads are disabled to protect submitter privacy."
+    "reasoning": "The Firestore structure is designed to ensure Authorization Independence, DBAC, and QAPs. User accounts are stored under `/users/{userId}`. This path-based ownership ensures that only the authenticated user can access their own data. The `Image` collection is public to allow anonymous users to view images like the hero banner. The `contactus` collection is publicly writable so anyone can submit a message, but client-side reads are disabled to protect submitter privacy. The `orders` collection is readable by users only if the `userId` on the order document matches their own UID."
   }
 }

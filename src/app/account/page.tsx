@@ -1,3 +1,5 @@
+'use client';
+
 import {
   Card,
   CardContent,
@@ -11,28 +13,135 @@ import {
   TabsList,
   TabsTrigger,
 } from '@/components/ui/tabs';
-import { products } from '@/lib/products';
+import { useUser, useFirestore, useCollection } from '@/firebase';
+import { collection, query, where } from 'firebase/firestore';
+import { useMemo } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
+import { Skeleton } from '@/components/ui/skeleton';
+import type { Product } from '@/lib/types';
+import { useMemoFirebase } from '@/firebase/provider';
 
-const dummyOrders = [
-  {
-    id: 'ORDER-8472',
-    date: 'February 20, 2024',
-    status: 'Delivered',
-    total: 450.0,
-    items: [products[1]],
-  },
-  {
-    id: 'ORDER-7139',
-    date: 'January 5, 2024',
-    status: 'Delivered',
-    total: 970.5,
-    items: [products[2], products[3]],
-  },
-];
+interface Order {
+  id: string;
+  date: string; // Assuming ISO string date
+  status: 'Delivered' | 'Processing' | 'Shipped';
+  total: number;
+  items: Product[];
+}
 
 export default function AccountPage() {
+  const { user, isUserLoading } = useUser();
+  const firestore = useFirestore();
+
+  const ordersQuery = useMemoFirebase(() => {
+    if (!firestore || !user) return null;
+    return query(collection(firestore, 'orders'), where('userId', '==', user.uid));
+  }, [firestore, user]);
+
+  const { data: orders, isLoading: isLoadingOrders } = useCollection<Order>(ordersQuery);
+
+  const sortedOrders = useMemo(() => {
+    if (!orders) return [];
+    return [...orders].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+  }, [orders]);
+
+  const renderOrderHistory = () => {
+    if (isLoadingOrders || isUserLoading) {
+      return (
+        <div className="space-y-6">
+          {[...Array(2)].map((_, i) => (
+            <Card key={i}>
+              <CardHeader>
+                <Skeleton className="h-6 w-1/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </CardHeader>
+              <CardContent>
+                <Skeleton className="h-24 w-full" />
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      );
+    }
+
+    if (!orders || orders.length === 0) {
+      return <p>You have no past orders.</p>;
+    }
+
+    return (
+      <div className="space-y-6">
+        {sortedOrders.map((order) => (
+          <div key={order.id} className="border rounded-lg p-4">
+            <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
+              <div>
+                <h3 className="font-semibold">{order.id}</h3>
+                <p className="text-sm text-muted-foreground">
+                  Date: {new Date(order.date).toLocaleDateString()}
+                </p>
+              </div>
+              <div className="text-right">
+                <p className="font-semibold">{formatCurrency(order.total)}</p>
+                <p className="text-sm text-green-600">{order.status}</p>
+              </div>
+            </div>
+            <div className="space-y-2">
+              {order.items.map((item) => (
+                <div key={item.id} className="flex items-center gap-4">
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    width={64}
+                    height={64}
+                    className="rounded-md object-cover"
+                  />
+                  <div>
+                    <p className="font-medium">{item.name}</p>
+                    <p className="text-sm text-muted-foreground">{formatCurrency(item.price)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
+   const renderProfile = () => {
+    if (isUserLoading) {
+      return (
+        <div className="space-y-4">
+          <Skeleton className="h-6 w-1/4" />
+          <Skeleton className="h-5 w-1/2" />
+           <Skeleton className="h-6 w-1/4 mt-4" />
+          <Skeleton className="h-5 w-1/2" />
+        </div>
+      );
+    }
+    
+    if (!user) {
+       return <p>Please log in to view your profile.</p>
+    }
+
+    return (
+       <div className="space-y-4">
+        <div className="space-y-1">
+          <p className="text-sm font-medium text-muted-foreground">Full Name</p>
+          <p>{user.displayName || 'N/A'}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-medium text-muted-foreground">Email Address</p>
+          <p>{user.email}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-sm font-medium text-muted-foreground">Shipping Address</p>
+          <p>123 Future Ave, Neo-Kyoto, 90210, USA</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="container mx-auto px-4 py-8 md:py-12">
       <h1 className="text-3xl md:text-4xl font-bold font-headline mb-8">
@@ -52,39 +161,7 @@ export default function AccountPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
-              {dummyOrders.map((order) => (
-                <div key={order.id} className="border rounded-lg p-4">
-                  <div className="flex justify-between items-center mb-4 flex-wrap gap-2">
-                    <div>
-                      <h3 className="font-semibold">{order.id}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        Date: {order.date}
-                      </p>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">{formatCurrency(order.total)}</p>
-                      <p className="text-sm text-green-600">{order.status}</p>
-                    </div>
-                  </div>
-                  <div className="space-y-2">
-                    {order.items.map((item) => (
-                      <div key={item.id} className="flex items-center gap-4">
-                        <Image
-                          src={item.image}
-                          alt={item.name}
-                          width={64}
-                          height={64}
-                          className="rounded-md object-cover"
-                        />
-                        <div>
-                          <p className="font-medium">{item.name}</p>
-                          <p className="text-sm text-muted-foreground">{formatCurrency(item.price)}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
+              {renderOrderHistory()}
             </CardContent>
           </Card>
         </TabsContent>
@@ -97,18 +174,7 @@ export default function AccountPage() {
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">Full Name</p>
-                <p>Jane Doe</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">Email Address</p>
-                <p>jane.doe@example.com</p>
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">Shipping Address</p>
-                <p>123 Future Ave, Neo-Kyoto, 90210, USA</p>
-              </div>
+              {renderProfile()}
             </CardContent>
           </Card>
         </TabsContent>
