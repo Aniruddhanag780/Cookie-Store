@@ -14,7 +14,7 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { useUser, useFirestore, useCollection } from '@/firebase';
-import { collection, query, where, doc, setDoc } from 'firebase/firestore';
+import { collection, query, where, doc, setDoc, getDoc } from 'firebase/firestore';
 import { useMemo, useEffect, useState } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
@@ -86,13 +86,12 @@ export default function AccountPage() {
   useEffect(() => {
     if (user && userProfileRef) {
         const fetchUserProfile = async () => {
-            const { getDoc } = await import('firebase/firestore');
             const docSnap = await getDoc(userProfileRef);
             if (docSnap.exists()) {
                 const profileData = docSnap.data() as UserAccount;
                 setUserProfile(profileData);
                 form.reset({
-                    fullName: user.displayName || profileData.firstName + ' ' + profileData.lastName || '',
+                    fullName: user.displayName || `${profileData.firstName} ${profileData.lastName}` || '',
                     email: user.email || '',
                     address: profileData.address || '',
                 });
@@ -145,7 +144,7 @@ export default function AccountPage() {
             firstName: firstName,
             lastName: lastName,
             address: data.address,
-            email: data.email, // email might be the same, but we include it for consistency
+            email: data.email,
         };
         await setDoc(userDocRef, profileData, { merge: true });
 
