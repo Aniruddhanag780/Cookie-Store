@@ -16,6 +16,10 @@ import {
   IndianRupee,
   Landmark,
   Wallet,
+  ShieldCheck,
+  Calendar,
+  Smile,
+  HelpCircle,
 } from 'lucide-react';
 import { useCart } from '@/contexts/cart-context';
 import { formatCurrency } from '@/lib/utils';
@@ -58,7 +62,9 @@ type ShippingDetails = {
 
 export default function PaymentPage() {
   const { cart, cartTotal, clearCart } = useCart();
-  const [shippingDetails, setShippingDetails] = useState<ShippingDetails | null>(null);
+  const [shippingDetails, setShippingDetails] = useState<ShippingDetails | null>(
+    null
+  );
   const firestore = useFirestore();
   const { user } = useUser();
   const { toast } = useToast();
@@ -69,7 +75,6 @@ export default function PaymentPage() {
     if (details) {
       setShippingDetails(JSON.parse(details));
     } else {
-      // If no shipping details, user shouldn't be here.
       router.push('/checkout');
     }
   }, [router]);
@@ -82,7 +87,8 @@ export default function PaymentPage() {
     if (!firestore || !user || !shippingDetails) {
       toast({
         title: 'Error',
-        description: 'You must be logged in and have shipping details to place an order.',
+        description:
+          'You must be logged in and have shipping details to place an order.',
         variant: 'destructive',
       });
       if (!user) router.push('/login');
@@ -121,7 +127,8 @@ export default function PaymentPage() {
       console.error('Error placing order:', error);
       toast({
         title: 'Order Failed',
-        description: 'There was a problem placing your order. Please try again.',
+        description:
+          'There was a problem placing your order. Please try again.',
         variant: 'destructive',
       });
     }
@@ -133,189 +140,134 @@ export default function PaymentPage() {
 
   return (
     <div className="bg-blue-50 min-h-screen">
-      <div className="container mx-auto px-4 py-8 md:py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2">
-            <Card className="shadow-none border-none bg-transparent">
-              <CardContent className="p-0">
-                <div className="space-y-4">
-                  <div className="bg-white p-4 rounded-lg">
-                    <h2 className="font-bold text-lg mb-2">Login</h2>
-                    <p className="text-sm">
-                      <span className="font-semibold">{user?.displayName || 'Valued Customer'}</span>{' '}
-                      <span>{user?.email}</span>
-                    </p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg">
-                    <h2 className="font-bold text-lg mb-2">Delivery Address</h2>
-                    <p className="text-sm">
-                      <span className="font-semibold">{shippingDetails.shippingAddress.fullName}</span>, {shippingDetails.shippingAddress.address}, {shippingDetails.shippingAddress.city}, {shippingDetails.shippingAddress.zipCode}, {shippingDetails.shippingAddress.country}
-                    </p>
-                  </div>
-                  <div className="bg-white p-4 rounded-lg">
-                    <h2 className="font-bold text-lg mb-2">Order Summary</h2>
-                    {/* Item details can be shown here if needed */}
-                    <p className="text-sm">Your items will be delivered soon.</p>
-                  </div>
-
-                  {/* Payment Options */}
-                  <div className="bg-white p-6 rounded-lg">
-                    <h2 className="font-bold text-lg mb-4 uppercase text-gray-500">
-                      Payment Options
-                    </h2>
-                    <Accordion type="single" collapsible className="w-full">
-                      <AccordionItem value="gift-card">
-                        <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <Gift className="h-5 w-5" /> Have a Gift Card?
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                          <p className="text-muted-foreground text-sm">
-                            Enter your gift card number below.
-                          </p>
-                          <div className="flex gap-2 mt-2">
-                            <Input placeholder="Gift Card Number" />
-                            <Input placeholder="PIN" />
-                            <Button>Apply</Button>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-                      <AccordionItem value="upi">
-                        <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <UpiIcon /> UPI
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                          <div className="space-y-4">
-                            <p className="text-sm text-muted-foreground">
-                              Enter your UPI ID
-                            </p>
-                            <div className="flex gap-2">
-                              <Input placeholder="yourupi@bank" />
-                              <Button
-                                type="button"
-                                variant="outline"
-                                className="border-primary text-primary"
-                                onClick={() => handlePayment('UPI')}
-                              >
-                                Pay Now
-                              </Button>
-                            </div>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem value="credit-card">
-                        <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <CreditCard className="h-5 w-5" /> Credit/Debit Card
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                           <div className="space-y-4">
-                            <p className="text-sm text-muted-foreground">
-                              Enter your card details
-                            </p>
-                            <div className="space-y-2">
-                              <Input placeholder="Card Number" />
-                              <div className="flex gap-2">
-                                <Input placeholder="MM / YY" />
-                                <Input placeholder="CVV" />
-                              </div>
-                            </div>
-                             <Button className="w-full" onClick={() => handlePayment('Credit Card')}>Pay {formatCurrency(totalAmount)}</Button>
-                          </div>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem value="wallet">
-                         <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <Wallet className="h-5 w-5" /> Wallet
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                           <p className="text-sm text-muted-foreground">Connect your wallet to proceed.</p>
-                           <Button className="w-full mt-2" onClick={() => handlePayment('Wallet')}>Connect Wallet</Button>
-                        </AccordionContent>
-                      </AccordionItem>
-                      
-                       <AccordionItem value="net-banking">
-                         <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <Landmark className="h-5 w-5" /> Net Banking
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                           <p className="text-sm text-muted-foreground">Select your bank to proceed.</p>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                      <AccordionItem value="cod">
-                        <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <IndianRupee className="h-5 w-5" /> Cash on Delivery
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                           <p className="text-sm text-muted-foreground">Pay with cash upon delivery.</p>
-                           <Button className="w-full mt-2" onClick={() => handlePayment('Cash on Delivery')}>Confirm Order</Button>
-                        </AccordionContent>
-                      </AccordionItem>
-
-                       <AccordionItem value="emi">
-                        <AccordionTrigger className="p-4 hover:no-underline font-semibold">
-                          <div className="flex items-center gap-3">
-                            <IndianRupee className="h-5 w-5" /> EMI (Easy Installments)
-                          </div>
-                        </AccordionTrigger>
-                        <AccordionContent className="p-4 pt-0">
-                           <p className="text-sm text-muted-foreground">Pay in easy installments.</p>
-                        </AccordionContent>
-                      </AccordionItem>
-                    </Accordion>
-                     <p className="text-xs text-center text-muted-foreground mt-4">
-                      35 Crore happy customers. 100% Secure payments.
-                    </p>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+      <div className="container mx-auto px-4 py-8 md:py-12 max-w-2xl">
+        <header className="mb-6 text-center">
+          <div className="inline-flex items-center gap-2 text-sm font-semibold text-muted-foreground bg-white px-3 py-1 rounded-full border">
+            <ShieldCheck className="h-4 w-4 text-green-500" />
+            <span>100% Secure</span>
           </div>
-          <div className="md:col-span-1">
-            <Card className="shadow-none border-none bg-transparent">
-              <CardContent className="p-6 bg-white rounded-lg">
-                <h3 className="uppercase text-gray-500 font-bold mb-4">
-                  Price Details
-                </h3>
-                <div className="space-y-2 text-sm">
-                  <div className="flex justify-between">
-                    <span>Price ({cart.length} items)</span>
-                    <span>{formatCurrency(cartTotal)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Discount</span>
-                    <span className="text-green-600">-{formatCurrency(discount)}</span>
-                  </div>
-                  <div className="flex justify-between">
-                    <span>Delivery Charges</span>
-                    <span>{formatCurrency(deliveryFee)}</span>
-                  </div>
-                  <div className="border-t border-dashed my-2"></div>
-                  <div className="flex justify-between font-bold text-base">
-                    <span>Total Amount</span>
-                    <span>{formatCurrency(totalAmount)}</span>
-                  </div>
-                  <div className="border-t border-dashed my-2"></div>
+        </header>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-white p-4 rounded-lg border mb-6">
+          <div>
+            <p className="text-muted-foreground text-sm">Amount Payable</p>
+            <p className="text-2xl font-bold">{formatCurrency(totalAmount)}</p>
+          </div>
+          <div className="text-right">
+            <p className="font-semibold">{cart.length} items in cart</p>
+          </div>
+        </div>
+
+        <div className="bg-green-100 border border-green-300 text-green-800 p-3 rounded-lg text-center text-sm mb-6">
+          Yay! <strong>5% Instant Cashback</strong> on all UPI & Card payments.
+        </div>
+
+        <div className="bg-white p-6 rounded-lg border">
+          <h2 className="font-bold text-lg mb-4 uppercase text-gray-500">
+            Payment Options
+          </h2>
+          <Accordion type="single" collapsible className="w-full" defaultValue="credit-card">
+            <AccordionItem value="gift-card">
+              <AccordionTrigger className="p-4 hover:no-underline font-semibold">
+                <div className="flex items-center gap-3">
+                  <Gift className="h-5 w-5" /> Have a Gift Card?
                 </div>
-                <p className="text-xs text-green-600 font-semibold mt-4">
-                  You will save {formatCurrency(discount)} on this order
+              </AccordionTrigger>
+              <AccordionContent className="p-4 pt-0">
+                <p className="text-muted-foreground text-sm">
+                  Enter your gift card number below.
                 </p>
-              </CardContent>
-            </Card>
+                <div className="flex gap-2 mt-2">
+                  <Input placeholder="Gift Card Number" />
+                  <Input placeholder="PIN" />
+                  <Button>Apply</Button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="upi">
+              <AccordionTrigger className="p-4 hover:no-underline font-semibold">
+                <div className="flex items-center gap-3">
+                  <UpiIcon /> UPI
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="p-4 pt-0">
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Enter your UPI ID
+                  </p>
+                  <div className="flex gap-2">
+                    <Input placeholder="yourupi@bank" />
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="border-primary text-primary"
+                      onClick={() => handlePayment('UPI')}
+                    >
+                      Pay Now
+                    </Button>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="credit-card">
+              <AccordionTrigger className="p-4 hover:no-underline font-semibold">
+                <div className="flex items-center gap-3">
+                  <CreditCard className="h-5 w-5" /> Credit / Debit / ATM Card
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="p-4 pt-0">
+                <div className="space-y-4">
+                  <p className="text-sm text-muted-foreground">
+                    Add and secure cards as per RBI guidelines.
+                  </p>
+                   <p className="text-sm text-green-600 font-semibold">
+                    Get upto 5% cashback • 2 offers available
+                  </p>
+                  <div className="space-y-2">
+                    <Input placeholder="Card Number" />
+                    <div className="flex gap-2">
+                      <Input placeholder="MM / YY" />
+                      <Input placeholder="CVV" />
+                    </div>
+                  </div>
+                  <Button className="w-full" onClick={() => handlePayment('Credit Card')}>
+                    Pay {formatCurrency(totalAmount)}
+                  </Button>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="cod">
+              <AccordionTrigger className="p-4 hover:no-underline font-semibold">
+                <div className="flex items-center gap-3">
+                  <IndianRupee className="h-5 w-5" /> Cash on Delivery
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="p-4 pt-0">
+                <p className="text-sm text-muted-foreground mb-4">
+                  Pay with cash upon delivery.
+                </p>
+                <Button className="w-full" onClick={() => handlePayment('Cash on Delivery')}>
+                  Confirm Order
+                </Button>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+
+          <div className="flex justify-between items-center p-4 border-t">
+              <div className="flex items-center gap-3 font-semibold">
+                <Calendar className="h-5 w-5" />
+                <span>EMI</span>
+              </div>
+              <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                <span>Unavailable</span>
+                <HelpCircle className="h-4 w-4" />
+              </div>
           </div>
+        </div>
+
+        <div className="text-center text-muted-foreground mt-8 flex flex-col items-center gap-2">
+            <p>35 Crore happy customers and counting!</p>
+            <Smile className="h-6 w-6"/>
         </div>
       </div>
     </div>
