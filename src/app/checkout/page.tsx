@@ -17,7 +17,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useCart } from '@/contexts/cart-context';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
-import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import { useEffect } from 'react';
@@ -62,8 +61,7 @@ const formSchema = z
   );
 
 export default function CheckoutPage() {
-  const { cart, cartTotal, clearCart } = useCart();
-  const { toast } = useToast();
+  const { cart, cartTotal } = useCart();
   const router = useRouter();
 
   useEffect(() => {
@@ -92,13 +90,11 @@ export default function CheckoutPage() {
   const sameAsShipping = form.watch('sameAsShipping');
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log('Order placed:', values);
-    toast({
-      title: 'Order Placed!',
-      description: 'Thank you for your purchase. Your order is on its way.',
-    });
-    clearCart();
-    router.push('/');
+    // Instead of placing the order here, we navigate to the payment page.
+    // The order details can be passed via state management or query params if needed.
+    // For now, we'll just navigate.
+    console.log('Shipping/Billing info:', values);
+    router.push('/payment');
   }
 
   if (cart.length === 0) {
