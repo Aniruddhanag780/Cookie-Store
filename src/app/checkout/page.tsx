@@ -19,7 +19,7 @@ import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
   Accordion,
@@ -127,6 +127,7 @@ export default function CheckoutPage() {
         description: 'You must be logged in to place an order.',
         variant: 'destructive',
       });
+      router.push('/login');
       return;
     }
 
@@ -165,11 +166,11 @@ export default function CheckoutPage() {
           price: item.price,
           quantity: item.quantity,
           image: item.image,
-          imageHint: item.imageHint,
           slug: item.slug,
           category: item.category,
           description: item.description,
           longDescription: item.longDescription,
+          imageHint: item.imageHint,
         })),
       });
 
@@ -535,5 +536,4 @@ export default function CheckoutPage() {
       </Form>
     </div>
   );
-
-    
+}
