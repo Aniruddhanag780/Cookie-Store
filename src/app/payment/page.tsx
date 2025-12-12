@@ -82,7 +82,7 @@ export default function PaymentPage() {
   const discount = cartTotal > 100 ? cartTotal * 0.2 : 0; // e.g. 20% discount on orders over $100
   const totalWithFees = cartTotal - discount + deliveryFee;
 
-  const handlePayment = async () => {
+  const handlePayment = async (paymentMethod: string) => {
     if (!firestore || !user) {
       toast({
         title: 'Error',
@@ -113,6 +113,7 @@ export default function PaymentPage() {
         date: serverTimestamp(),
         status: 'Processing',
         total: totalWithFees,
+        paymentMethod: paymentMethod,
         shippingAddress: {
             fullName: shippingDetails.fullName,
             address: shippingDetails.address,
@@ -273,7 +274,7 @@ export default function PaymentPage() {
               <CardContent>
                 <Button
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white"
-                  onClick={handlePayment}
+                  onClick={() => handlePayment('Flipkart UPI')}
                 >
                   Add Bank and Pay
                 </Button>
@@ -303,7 +304,7 @@ export default function PaymentPage() {
                       <Button
                         variant="outline"
                         className="border-primary text-primary"
-                        onClick={handlePayment}
+                        onClick={() => handlePayment('UPI')}
                       >
                         Verify
                       </Button>
@@ -336,7 +337,7 @@ export default function PaymentPage() {
                      </div>
                      <Button
                        className="w-full"
-                       onClick={handlePayment}
+                       onClick={() => handlePayment('Credit Card')}
                      >
                        Pay {totalAmountFormatted}
                      </Button>
@@ -357,7 +358,7 @@ export default function PaymentPage() {
                      </p>
                      <Button
                        className="w-full"
-                       onClick={handlePayment}
+                       onClick={() => handlePayment('Cash on Delivery')}
                      >
                        Confirm Order
                      </Button>
