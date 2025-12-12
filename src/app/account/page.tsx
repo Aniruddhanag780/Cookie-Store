@@ -14,13 +14,28 @@ import {
   TabsTrigger,
 } from '@/components/ui/tabs';
 import { useUser, useFirestore, useCollection } from '@/firebase';
-import { collection, query, where } from 'firebase/firestore';
-import { useMemo } from 'react';
+import { collection, query, where, doc, setDoc } from 'firebase/firestore';
+import { useMemo, useEffect, useState } from 'react';
 import { formatCurrency } from '@/lib/utils';
 import Image from 'next/image';
 import { Skeleton } from '@/components/ui/skeleton';
-import type { Product } from '@/lib/types';
-import { useMemoFirebase } from '@/firebase/provider';
+import type { Product, UserAccount } from '@/lib/types';
+import { useMemoFirebase, useAuth } from '@/firebase/provider';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/hooks/use-toast';
+import { updateProfile } from 'firebase/auth';
 
 interface Order {
   id: string;
@@ -30,21 +45,108 @@ interface Order {
   items: Product[];
 }
 
+const profileSchema = z.object({
+  fullName: z.string().min(2, { message: 'Full name is required.' }),
+  email: z.string().email(),
+  address: z.string().min(5, { message: 'A valid address is required.' }),
+});
+
+type ProfileFormValues = z.infer<typeof profileSchema>;
+
 export default function AccountPage() {
   const { user, isUserLoading } = useUser();
   const firestore = useFirestore();
+  const auth = useAuth();
+  const { toast } = useToast();
+  const [userProfile, setUserProfile] = useState<UserAccount | null>(null);
+  
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileSchema),
+    defaultValues: {
+      fullName: '',
+      email: '',
+      address: '',
+    },
+  });
 
   const ordersQuery = useMemoFirebase(() => {
     if (!firestore || !user) return null;
     return query(collection(firestore, 'orders'), where('userId', '==', user.uid));
   }, [firestore, user]);
 
+  const userProfileRef = useMemoFirebase(() => {
+    if (!firestore || !user) return null;
+    return doc(firestore, 'users', user.uid);
+  }, [firestore, user]);
+
   const { data: orders, isLoading: isLoadingOrders } = useCollection<Order>(ordersQuery);
+
+  useEffect(() => {
+    if (user && userProfileRef) {
+        const fetchUserProfile = async () => {
+            const { getDoc } = await import('firebase/firestore');
+            const docSnap = await getDoc(userProfileRef);
+            if (docSnap.exists()) {
+                const profileData = docSnap.data() as UserAccount;
+                setUserProfile(profileData);
+                form.reset({
+                    fullName: user.displayName || profileData.firstName + ' ' + profileData.lastName || '',
+                    email: user.email || '',
+                    address: profileData.address || '',
+                });
+            } else {
+                 form.reset({
+                    fullName: user.displayName || '',
+                    email: user.email || '',
+                    address: '',
+                });
+            }
+        }
+        fetchUserProfile();
+    }
+  }, [user, userProfileRef, form]);
 
   const sortedOrders = useMemo(() => {
     if (!orders) return [];
     return [...orders].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
   }, [orders]);
+
+  const onProfileSubmit = async (data: ProfileFormValues) => {
+    if (!user || !firestore) return;
+
+    try {
+        // Update Firebase Auth profile
+        await updateProfile(user, {
+            displayName: data.fullName,
+        });
+
+        // Update Firestore profile
+        const userDocRef = doc(firestore, 'users', user.uid);
+        const [firstName, ...lastNameParts] = data.fullName.split(' ');
+        const lastName = lastNameParts.join(' ');
+        
+        const profileData: Partial<UserAccount> = {
+            firstName: firstName,
+            lastName: lastName,
+            address: data.address,
+            email: user.email! // email is non-null for a logged-in user
+        };
+        await setDoc(userDocRef, profileData, { merge: true });
+
+        toast({
+            title: "Profile Updated",
+            description: "Your information has been successfully saved.",
+        });
+
+    } catch (error: any) {
+        toast({
+            title: "Update Failed",
+            description: error.message || "Could not update your profile.",
+            variant: "destructive",
+        });
+    }
+  };
+
 
   const renderOrderHistory = () => {
     if (isLoadingOrders || isUserLoading) {
@@ -114,10 +216,9 @@ export default function AccountPage() {
     if (isUserLoading) {
       return (
         <div className="space-y-4">
-          <Skeleton className="h-6 w-1/4" />
-          <Skeleton className="h-5 w-1/2" />
-           <Skeleton className="h-6 w-1/4 mt-4" />
-          <Skeleton className="h-5 w-1/2" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
+          <Skeleton className="h-10 w-full" />
         </div>
       );
     }
@@ -129,20 +230,52 @@ export default function AccountPage() {
     }
 
     return (
-       <div className="space-y-4">
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground">Full Name</p>
-          <p>{user.displayName || 'N/A'}</p>
-        </div>
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground">Email Address</p>
-          <p>{user.email}</p>
-        </div>
-        <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground">Shipping Address</p>
-          <p>123 Future Ave, Neo-Kyoto, 90210, USA</p>
-        </div>
-      </div>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onProfileSubmit)} className="space-y-6">
+          <FormField
+            control={form.control}
+            name="fullName"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Full Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address</FormLabel>
+                <FormControl>
+                  <Input {...field} disabled />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+           <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Shipping Address</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="123 Future Ave, Neo-Kyoto, 90210, USA" />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button type="submit" disabled={form.formState.isSubmitting}>
+            {form.formState.isSubmitting ? "Saving..." : "Save Changes"}
+          </Button>
+        </form>
+      </Form>
     );
   }
 

@@ -13,3 +13,12 @@ export interface Product {
 export interface CartItem extends Product {
   quantity: number;
 }
+
+export interface UserAccount {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  address?: string;
+  orderIds?: string[];
+}
