@@ -16,7 +16,7 @@ const footerLinks = [
   {
     title: 'Help',
     links: [
-      { label: 'Customer Support', href: '#' },
+      { label: 'Customer Support', href: '/contact' },
       { label: 'Delivery Details', href: '#' },
       { label: 'Terms & Conditions', href: '#' },
       { label: 'Privacy Policy', href: '#' },
