@@ -20,6 +20,10 @@ import {
   Landmark,
   Wallet,
   CreditCard,
+  IndianRupee,
+  CalendarDays,
+  Smile,
+  HelpCircle,
 } from 'lucide-react';
 import { Checkbox } from '@/components/ui/checkbox';
 import {
@@ -201,8 +205,9 @@ export default function PaymentPage() {
               type="single"
               collapsible
               className="w-full bg-white rounded-lg border"
+              defaultValue="credit-card"
             >
-              <AccordionItem value="upi" className="border-b-0">
+              <AccordionItem value="upi">
                 <AccordionTrigger className="p-4 font-semibold hover:no-underline">
                   <div className="flex items-center gap-3">
                     <UpiIcon />
@@ -227,15 +232,77 @@ export default function PaymentPage() {
                   </div>
                 </AccordionContent>
               </AccordionItem>
+              <AccordionItem value="credit-card">
+                 <AccordionTrigger className="p-4 hover:no-underline">
+                   <div className='flex flex-col items-start gap-1'>
+                    <div className="flex items-center gap-3 font-semibold">
+                      <CreditCard className="h-5 w-5" />
+                      Credit / Debit / ATM Card
+                    </div>
+                    <p className='text-xs text-muted-foreground font-normal'>Add and secure cards as per RBI guidelines</p>
+                    <p className='text-xs text-green-600 font-semibold'>Get upto 5% cashback • 2 offers available</p>
+                   </div>
+                 </AccordionTrigger>
+                 <AccordionContent className="p-4 pt-0">
+                   <div className="space-y-4">
+                     <p className="text-sm text-muted-foreground">
+                       Enter your card details
+                     </p>
+                     <div className="space-y-2">
+                       <Input placeholder="Card Number" />
+                       <div className="flex gap-2">
+                         <Input placeholder="MM / YY" />
+                         <Input placeholder="CVV" />
+                       </div>
+                     </div>
+                     <Button
+                       className="w-full"
+                       onClick={handlePayment}
+                     >
+                       Pay {totalAmountFormatted}
+                     </Button>
+                   </div>
+                 </AccordionContent>
+              </AccordionItem>
+              <AccordionItem value="cod">
+                 <AccordionTrigger className="p-4 font-semibold hover:no-underline">
+                   <div className="flex items-center gap-3">
+                     <IndianRupee className="h-5 w-5" />
+                     Cash on Delivery
+                   </div>
+                 </AccordionTrigger>
+                 <AccordionContent className="p-4 pt-0">
+                   <div className="space-y-4">
+                     <p className="text-sm text-muted-foreground">
+                       Pay with cash upon delivery of your order.
+                     </p>
+                     <Button
+                       className="w-full"
+                       onClick={handlePayment}
+                     >
+                       Confirm Order
+                     </Button>
+                   </div>
+                 </AccordionContent>
+              </AccordionItem>
             </Accordion>
+            
+            <div className="border rounded-lg p-4 flex justify-between items-center">
+                <div className="flex items-center gap-3">
+                    <CalendarDays className="h-5 w-5 text-muted-foreground" />
+                    <span className="font-semibold">EMI</span>
+                </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="text-sm text-muted-foreground">Unavailable</span>
+                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
+                </div>
+            </div>
 
-            <div className="text-center p-4">
-              <Link
-                href="/account"
-                className="text-sm text-muted-foreground hover:text-primary"
-              >
-                Or complete purchase using other payment options
-              </Link>
+            <div className="text-center p-4 space-y-2">
+                <Smile className="h-8 w-8 text-muted-foreground mx-auto" />
+                <p className="text-sm text-muted-foreground">
+                  35 Crore happy customers and counting!
+                </p>
             </div>
           </div>
         </main>
