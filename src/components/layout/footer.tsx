@@ -24,15 +24,6 @@ const footerLinks = [
     ],
   },
   {
-    title: 'FAQ',
-    links: [
-      { label: 'Account', href: '#' },
-      { label: 'Manage Deliveries', href: '/faq' },
-      { label: 'Orders', href: '#' },
-      { label: 'Payments', href: '#' },
-    ],
-  },
-  {
     title: 'Resources',
     links: [
       { label: 'Free eBooks', href: '#' },
@@ -86,7 +77,7 @@ export default function Footer() {
                   <Link href="#" className="text-muted-foreground hover:text-primary transition-colors"><Github className="h-5 w-5" /></Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 md:col-span-3 lg:col-span-4">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-8 md:col-span-3 lg:col-span-4">
               {footerLinks.map((section) => (
                 <div key={section.title} className="flex flex-col gap-3 text-sm">
                   <h4 className="font-semibold font-headline uppercase tracking-wider mb-2 text-foreground">{section.title}</h4>
