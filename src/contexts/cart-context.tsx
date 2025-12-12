@@ -1,3 +1,4 @@
+
 'use client';
 
 import type { CartItem, Product } from '@/lib/types';
@@ -44,56 +45,62 @@ export const CartProvider = ({ children }: { children: React.ReactNode }) => {
     return null;
   }, [user, firestore]);
 
-  const { data: firestoreCart, isLoading: isFirestoreCartLoading } = useCollection<{id: string, quantity: number}>(cartCollectionRef);
+  const { data: firestoreCartData, isLoading: isFirestoreCartLoading } = useCollection<{id: string, quantity: number}>(cartCollectionRef);
   
   const isCartLoading = isUserLoading || isFirestoreCartLoading;
 
   useEffect(() => {
-    if (user) {
-      if (firestoreCart) {
-        // User is logged in, and we have cart data from Firestore
-        // Merge local cart into Firestore if local cart has items
-        if (localCart.length > 0) {
-          const batch = writeBatch(firestore);
-          const newFirestoreCart = [...firestoreCart];
+    if (user && firestoreCartData) {
+      // User is logged in, and we have cart data from Firestore
+      // Merge local cart into Firestore if local cart has items
+      if (localCart.length > 0) {
+        const batch = writeBatch(firestore);
+        const currentFirestoreCart = [...firestoreCartData];
 
-          localCart.forEach(localItem => {
-            const firestoreItem = newFirestoreCart.find(item => item.id === localItem.id);
-            if (firestoreItem) {
-              // Item exists in Firestore, update quantity if local is greater
-              const newQuantity = firestoreItem.quantity + localItem.quantity;
-              const itemRef = doc(firestore, 'users', user.uid, 'cart', localItem.id);
-              batch.update(itemRef, { quantity: newQuantity });
-            } else {
-              // Item does not exist in Firestore, add it
-              const itemRef = doc(firestore, 'users', user.uid, 'cart', localItem.id);
-              batch.set(itemRef, { id: localItem.id, quantity: localItem.quantity });
-            }
-          });
+        localCart.forEach(localItem => {
+          const firestoreItem = currentFirestoreCart.find(item => item.id === localItem.id);
+          const itemRef = doc(firestore, 'users', user.uid, 'cart', localItem.id);
 
-          batch.commit().then(() => {
-            setLocalCart([]); // Clear local cart after merging
-          });
-        }
+          if (firestoreItem) {
+            // Item exists in Firestore, update quantity by adding local quantity
+            const newQuantity = firestoreItem.quantity + localItem.quantity;
+            batch.update(itemRef, { quantity: newQuantity });
+          } else {
+            // Item does not exist in Firestore, set it
+            batch.set(itemRef, { id: localItem.id, quantity: localItem.quantity });
+          }
+        });
+
+        batch.commit().then(() => {
+          setLocalCart([]); // Clear local cart after merging
+        }).catch(err => {
+            console.error("Failed to merge cart:", err);
+            toast({
+                title: "Cart Sync Error",
+                description: "Could not sync your local cart with your account.",
+                variant: "destructive",
+            });
+        });
       }
     }
-  }, [user, firestoreCart, localCart, firestore]);
+  }, [user, firestoreCartData, localCart, firestore, toast]);
   
   const cart = useMemo(() => {
     if (user) {
-      if (!firestoreCart) return [];
+      if (!firestoreCartData) return [];
       // Map firestore cart items (which are just {id, quantity}) to full CartItem objects
-      return firestoreCart.map(item => {
+      return firestoreCartData.map(item => {
         const productDetails = allProducts.find(p => p.id === item.id);
+        if (!productDetails) return null; // Handle case where product might not exist anymore
         return {
-          ...productDetails!,
+          ...productDetails,
           quantity: item.quantity,
         };
       }).filter(Boolean) as CartItem[]; // Filter out any not found products
     }
     // If no user, use the local cart state
     return localCart;
-  }, [user, firestoreCart, localCart]);
+  }, [user, firestoreCartData, localCart]);
 
 
   const addToCart = async (product: Product, quantity = 1) => {
