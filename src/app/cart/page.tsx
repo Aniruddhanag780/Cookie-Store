@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useCart } from '@/contexts/cart-context';
@@ -34,9 +35,10 @@ export default function CartPage() {
     )
   }
 
-  const deliveryFee = 15;
-  const discount = cartTotal > 0 ? cartTotal * 0.2 : 0;
+  const deliveryFee = cartTotal > 0 ? 15 : 0;
+  const discount = cartTotal > 100 ? cartTotal * 0.2 : 0; // e.g. 20% discount on orders over $100
   const total = cartTotal - discount + deliveryFee;
+
 
   return (
     <div className="bg-background">

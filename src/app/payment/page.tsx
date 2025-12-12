@@ -98,11 +98,12 @@ export default function PaymentPage() {
     );
   }
 
-  const deliveryFee = 15;
-  const discount = cartTotal > 0 ? cartTotal * 0.2 : 0;
+  const deliveryFee = cartTotal > 0 ? 15 : 0;
+  const discount = cartTotal > 100 ? cartTotal * 0.2 : 0; // e.g. 20% discount on orders over $100
   const totalWithFees = cartTotal - discount + deliveryFee;
 
-  const totalAmountFormatted = `₹${Math.round(totalWithFees)}`;
+  const totalAmountFormatted = formatCurrency(totalWithFees, 'INR').split('.')[0];
+
 
   return (
     <div className="bg-secondary/30 min-h-screen">
